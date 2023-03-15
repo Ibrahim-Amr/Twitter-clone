@@ -8,8 +8,8 @@ const LayOut = () => {
 		<>
 			<main className='flex min-h-screen max-w-7xl mx-auto'>
 				<Sidebar />
-				{/* <Outlet />
-				<Widgets /> */}
+				<Outlet />
+				{/* <Widgets /> */}
 			</main>
 		</>
 	);
