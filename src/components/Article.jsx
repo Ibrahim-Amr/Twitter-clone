@@ -21,7 +21,7 @@ const Article = ({ post }) => {
 				{/* Right Side */}
 				<div className='w-full '>
 					{/* Header */}
-					<div className='flex justify-between items-center'>
+					<div className='flex justify-between items-center '>
 						{/* post user info */}
 						<div className='flex justify-start items-center gap-x-1 whitespace-nowrap'>
 							<h4 className='font-bold text-[15px] sm:text-[16px] hover:underline'>
@@ -39,7 +39,7 @@ const Article = ({ post }) => {
 						<DotsHorizontalIcon className='hoverEffect hover:bg-sky-100 hover:text-sky-500 h-10 w-10 p-2' />
 					</div>
 					{/* Post text */}
-					<p className='text-gray-800 dark:text-white text-[15px] sm:text-https://twitter.com/homebase mb-2'>
+					<p className='text-gray-800 dark:text-white text-[15px] sm:text-[16px] font-semibold mb-2 mt-[-10px]'>
 						{post.text}
 					</p>
 					{/* post Image */}

@@ -1,7 +1,18 @@
-import React from 'react';
+import News from './News';
+import Search from './Search';
 
 const Widgets = () => {
-	return <div>Widgets</div>;
+	return (
+		<>
+			<aside className='w-full hidden lg:inline ml-8 space-y-5'>
+				{/* Search */}
+				<Search />
+				{/* Whats happening */}
+				<News />
+				{/* People you may */}
+			</aside>
+		</>
+	);
 };
 
 export default Widgets;

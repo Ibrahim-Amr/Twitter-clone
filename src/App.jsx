@@ -6,10 +6,13 @@ import Home from './pages/Home';
 const LayOut = () => {
 	return (
 		<>
-			<main className='flex min-h-screen max-w-7xl mx-auto'>
+			<main className='flex min-h-screen sm:max-w-2xl lg:max-w-5xl xl:max-w-7xl mx-auto '>
+				{/* Sidebar */}
 				<Sidebar />
+				{/* Outlet Middle Section */}
 				<Outlet />
-				{/* <Widgets /> */}
+				{/* Widgets  */}
+				<Widgets />
 			</main>
 		</>
 	);
