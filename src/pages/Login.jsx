@@ -7,14 +7,10 @@ import { toast } from 'react-toastify';
 import { auth, db } from '../Firebase';
 
 function Login() {
-   let navigate = useNavigate();
-   
-   useEffect(() => {
-		console.log(auth.currentUser);
-	}, [auth]);
+	let navigate = useNavigate();
+	const provider = new GoogleAuthProvider();
 
 	const LoginWithGoogle = async () => {
-		const provider = new GoogleAuthProvider();
 		try {
 			const userCredential = await signInWithPopup(auth, provider);
 			const user = userCredential.user;
@@ -24,7 +20,7 @@ function Login() {
 				await setDoc(docRef, {
 					name: user.displayName,
 					email: user.email,
-					avatar: user.imgageURL,
+					avatar: user.photoURL,
 					timestamp: serverTimestamp(),
 				});
 			}

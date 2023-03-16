@@ -1,11 +1,25 @@
 import { EmojiHappyIcon, PhotographIcon } from '@heroicons/react/outline';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import { auth } from '../Firebase';
 
 const Input = () => {
+	const [userInfo, setUserInfo] = useState({});
+
+	useEffect(() => {
+		onAuthStateChanged(auth, (user) => {
+			if (user) {
+				setUserInfo(user);
+			} else {
+				setUserInfo('');
+			}
+		});
+	}, [auth]);
 	return (
 		<>
 			<div className='flex border-b border-gray-200 dark:border-gray-50/20 p-3 gap-x-3'>
 				<img
-					src='https://pbs.twimg.com/profile_images/1481377313262612489/oUxpGO-6_400x400.jpg'
+					src={userInfo.photoURL}
 					alt='user image'
 					className='h-11 w-11 rounded-full cursor-pointer brightness-95'
 				/>

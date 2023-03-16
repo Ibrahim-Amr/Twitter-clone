@@ -10,9 +10,32 @@ import {
 	UserIcon,
 } from '@heroicons/react/outline';
 import SidebarMenuItem from './SidebarMenuItem';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth } from '../Firebase';
+import { useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const Sidebar = () => {
+	const [userInfo, setUserInfo] = useState({});
+	let navigate = useNavigate();
+
+	function signOut() {
+		auth.signOut();
+		navigate('/login');
+	}
+
+	useEffect(() => {
+		onAuthStateChanged(auth, (user) => {
+			if (user) {
+				// console.log(user);
+				setUserInfo(user);
+			} else {
+				// User is signed out
+				// ...
+			}
+		});
+	}, [auth]);
+
 	return (
 		<>
 			<aside className='hidden sm:flex flex-col p-2 xl:items-start fixed h-full '>
@@ -45,15 +68,17 @@ const Sidebar = () => {
 					Tweet
 				</button>
 				{/* Mini Profile */}
-				<div className='hoverEffect text-gray-700 dark:text-white flex items-center justify-center xl:justify-start mt-auto'>
+				<div
+					onClick={signOut}
+					className='hoverEffect text-gray-700 dark:text-white flex items-center justify-center xl:justify-start mt-auto'>
 					<img
-						src='https://pbs.twimg.com/profile_images/1481377313262612489/oUxpGO-6_400x400.jpg'
+						src={userInfo.photoURL}
 						alt='avatar'
 						className='h-10 w-10 rounded-full xl:mr-2'
 					/>
 					<div className='leading-5 hidden xl:inline'>
-						<h4 className='font-bold dark:text-white'>Ibrahim Omar</h4>
-						<p className='text-gray-500'>@ibrahimOmar</p>
+						<h4 className='font-bold dark:text-white'>{userInfo.displayName}</h4>
+						<p className='text-gray-500'>@{userInfo.displayName}</p>
 					</div>
 					<DotsHorizontalIcon className='h-5 xl:ml-8 hidden xl:inline' />
 				</div>
