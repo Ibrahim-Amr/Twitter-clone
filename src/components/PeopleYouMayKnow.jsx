@@ -1,8 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 
-const News = () => {
+const PeopleYouMayKnow = () => {
 	const [news, setNews] = useState([]);
 	// const [limit, setLimit] = useState('3');
 	useEffect(() => {
@@ -22,10 +21,10 @@ const News = () => {
 	}, []);
 	return (
 		<>
-			<div className='text-gray-700 dark:text-white space-y-3 bg-gray-100 dark:bg-[#16181C] rounded-xl pt-2  '>
-				<h4 className='font-bold text-xl px-4 mb-3'>Trending News</h4>
-				{news.slice(0, 3).map((article, id) => (
-					<a key={id * 1000} rel='noreferrer' href={article.url} target='_blank'>
+			<div className=' text-gray-700 dark:text-white space-y-3 bg-gray-100 dark:bg-[#16181C] rounded-xl pt-2 '>
+				<h4 className='font-bold text-xl px-4 mb-3'>Who to follow</h4>
+				{news.slice(0, 2).map((article, id) => (
+					<a key={id * 500} rel='noreferrer' href={article.url} target='_blank'>
 						<div className='flex items-center justify-between px-4 py-2 space-x-1 hover:bg-gray-50/5 transition duration-500 ease-out '>
 							<div className='space-y-0.5 overflow-hidden'>
 								<h6 className='text-sm font-bold '>{article.title}</h6>
@@ -40,12 +39,10 @@ const News = () => {
 						</div>
 					</a>
 				))}
-				<Link to={'/explore'}>
-					<button className='text-blue-300 pl-4 pb-3 hover:text-blue-400'>Show more</button>
-				</Link>
+				<button className='text-blue-300 pl-4 pb-3 hover:text-blue-400'>Show more</button>
 			</div>
 		</>
 	);
 };
 
-export default News;
+export default PeopleYouMayKnow;

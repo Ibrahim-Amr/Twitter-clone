@@ -10,11 +10,12 @@ import {
 	UserIcon,
 } from '@heroicons/react/outline';
 import SidebarMenuItem from './SidebarMenuItem';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
 	return (
 		<>
-			<aside className='hidden sm:flex flex-col p-2 xl:items-start fixed h-full xl:ml-24'>
+			<aside className='hidden sm:flex flex-col p-2 xl:items-start fixed h-full '>
 				{/* Twitter Logo */}
 				<div className='hoverEffect p-0 hover:bg-blue-100'>
 					<img
@@ -26,8 +27,12 @@ const Sidebar = () => {
 				</div>
 				{/* Menu */}
 				<div className='mt-4 mb-2.5 xl:items-start'>
-					<SidebarMenuItem text={'Home'} Icon={HomeIcon} active />
-					<SidebarMenuItem text={'Explore'} Icon={HashtagIcon} />
+					<Link to={'/'}>
+						<SidebarMenuItem text={'Home'} Icon={HomeIcon} active />
+					</Link>
+					<Link to={'/explore'}>
+						<SidebarMenuItem text={'Explore'} Icon={HashtagIcon} />
+					</Link>
 					<SidebarMenuItem text={'Notifications'} Icon={BellIcon} />
 					<SidebarMenuItem text={'Messages'} Icon={InboxIcon} />
 					<SidebarMenuItem text={'Bookmark'} Icon={BookmarkIcon} />
