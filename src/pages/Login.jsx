@@ -1,7 +1,5 @@
-import { async } from '@firebase/util';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from 'firebase/auth';
 import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { auth, db } from '../Firebase';
@@ -30,6 +28,15 @@ function Login() {
 			console.log(err);
 		}
 	};
+
+	// useEffect(() => {
+	// 	onAuthStateChanged(auth, (user) => {
+	// 		if (user) {
+	// 			navigate('/');
+	// 		}
+	// 	});
+	// }, []);
+
 	return (
 		<>
 			<section className='w-screen h-screen flex justify-center items-center bg-zinc-900'>

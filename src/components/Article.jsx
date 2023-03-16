@@ -8,12 +8,13 @@ import {
 } from '@heroicons/react/outline';
 
 const Article = ({ post }) => {
+	console.log(post);
 	return (
 		<>
 			<article className='flex justify-between items-start px-3 py-1 cursor-pointer border-b border-b-gray-200 dark:border-blue-50/20'>
 				{/* user image */}
 				<img
-					src={post.userImg}
+					src={post.autherImg}
 					alt='userimg'
 					width={50}
 					className='h-11 w-11 rounded-full mr-4 mt-3'
@@ -25,14 +26,14 @@ const Article = ({ post }) => {
 						{/* post user info */}
 						<div className='flex justify-start items-center gap-x-1 whitespace-nowrap'>
 							<h4 className='font-bold text-[15px] sm:text-[16px] hover:underline'>
-								{post.name}
+								{post.autherName}
 							</h4>
 							<span className='text-sm sm:text-[15px] text-gray-700 dark:text-gray-300 '>
-								{post.userName}
+								@{post.autherName}
 							</span>
 							{' · '}
 							<span className='text-sm sm:text-[15px] hover:underline text-gray-700 dark:text-gray-300'>
-								{post.timestamp}
+								{post.timestamp.seconds}
 							</span>
 						</div>
 						{/* dot icon */}
@@ -43,7 +44,11 @@ const Article = ({ post }) => {
 						{post.text}
 					</p>
 					{/* post Image */}
-					<img src={post.postImage} alt='post image' className='rounded-2xl mr-2 w-full' />
+					<img
+						src={post.image}
+						alt='post image'
+						className='rounded-2xl mr-2 w-full max-h-[500px] object-cover'
+					/>
 					{/* Icons */}
 					<div className='flex justify-between items-center text-gray-500 dark:text-white my-1'>
 						<ChatIcon className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100' />

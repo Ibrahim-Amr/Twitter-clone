@@ -38,7 +38,7 @@ const Sidebar = () => {
 
 	return (
 		<>
-			<aside className='hidden sm:flex flex-col p-2 xl:items-start fixed h-full '>
+			<aside className='hidden sm:flex flex-col p-2 xl:items-start fixed top-0 overflow-auto'>
 				{/* Twitter Logo */}
 				<div className='hoverEffect p-0 hover:bg-blue-100'>
 					<img
