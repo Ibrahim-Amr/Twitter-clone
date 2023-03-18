@@ -16,6 +16,7 @@ function Login() {
 			const docSnap = await getDoc(docRef);
 			if (!docSnap.exists()) {
 				await setDoc(docRef, {
+					id: user.uid,
 					name: user.displayName,
 					email: user.email,
 					avatar: user.photoURL,

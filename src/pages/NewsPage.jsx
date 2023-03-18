@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { SparklesIcon } from '@heroicons/react/outline';
 import { DotsHorizontalIcon } from '@heroicons/react/outline';
 // import Moment from 'react-moment';
 const NewsPage = () => {
@@ -23,10 +24,13 @@ const NewsPage = () => {
 	}, []);
 
 	return (
-		<div className='overflow-hidden py-3'>
-			<h4 className='font-bold text-xl px-4 mb-3 text-black dark:text-white border-b border-gray-50/20 pb-3'>
-				Trending
-			</h4>
+		<div className='overflow-hidden pb-3'>
+			<div className='sticky top-0 z-50 flex justify-between items-center bg-white dark:bg-black border-b border-gray-200 dark:border-gray-50/20  px-3 py-3'>
+				<h2 className='text-lg sm:text-xl font-bold cursor-pointer'>Home</h2>
+				<div className='hoverEffect flex justify-center items-center p-0 w-9 h-9'>
+					<SparklesIcon className='h-5' />
+				</div>
+			</div>
 			{explore.slice(0, 20).map((article, id) => (
 				<Link key={id + 1} to={article.url} target='_blank'>
 					<article className='flex justify-between items-start px-3 py-3 cursor-pointer border-b border-b-gray-200 dark:border-blue-50/20'>

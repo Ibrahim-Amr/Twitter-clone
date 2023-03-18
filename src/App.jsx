@@ -8,6 +8,11 @@ import Login from './pages/Login';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import ProtectedRoute from './components/ProtectedRoute';
+import Profile from './components/Profile';
+import Users from './components/Users';
+import Chat from './components/Chat';
+import 'flowbite';
+import BottomNav from './components/BottomNav';
 
 const LayOut = () => {
 	return (
@@ -16,11 +21,12 @@ const LayOut = () => {
 				{/* Sidebar */}
 				<Sidebar />
 				{/* Outlet Middle Section */}
-				<section className='xl:ml-[300px] sm:ml-[73px] w-full  md:min-w-[36rem]  max-w-xl  min-h-screen border-x border-gray-200 dark:border-gray-50/20'>
+				<section className='xl:ml-[300px] sm:ml-[73px] w-full  md:min-w-[36rem]  sm:max-w-xl  min-h-screen border-x border-gray-200 dark:border-gray-50/20'>
 					<Outlet />
 				</section>
 				{/* Widgets  */}
 				<Widgets />
+				<BottomNav />
 				<ScrollRestoration />
 			</main>
 		</>
@@ -41,10 +47,34 @@ let route = createBrowserRouter([
 				),
 			},
 			{
-				path: 'explore',
+				path: '/explore',
 				element: (
 					<ProtectedRoute>
 						<NewsPage />
+					</ProtectedRoute>
+				),
+			},
+			{
+				path: '/profile/:id',
+				element: (
+					<ProtectedRoute>
+						<Profile />
+					</ProtectedRoute>
+				),
+			},
+			{
+				path: '/users',
+				element: (
+					<ProtectedRoute>
+						<Users />
+					</ProtectedRoute>
+				),
+			},
+			{
+				path: '/chat/:id',
+				element: (
+					<ProtectedRoute>
+						<Chat />
 					</ProtectedRoute>
 				),
 			},
