@@ -1,9 +1,20 @@
 import { NewspaperIcon, UserIcon, UsersIcon } from '@heroicons/react/outline';
-import React from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { auth } from '../Firebase';
 
 const BottomNav = () => {
+	const [user, setUser] = useState({});
+
+	useEffect(() => {
+		onAuthStateChanged(auth, (user) => {
+			if (user) {
+				setUser(user);
+			}
+		});
+	}, [user]);
+
 	return (
 		<>
 			<div class='fixed bottom-0 z-50 w-full h-16 -translate-x-1/2 bg-white border border-gray-200 left-1/2 dark:bg-gray-700 dark:border-gray-600 sm:hidden'>
@@ -52,7 +63,7 @@ const BottomNav = () => {
 					</Link>
 					{/* Profile */}
 					<Link
-						// to={`/profile/${auth.currentUser.uid}`}
+						to={`/profile/${user.uid}`}
 						title='Profile'
 						class='inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group'>
 						<UserIcon class='w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' />

@@ -86,6 +86,7 @@ const Article = ({ post }) => {
 					<img
 						src={post.data().image}
 						alt='post image'
+						loading='lazy'
 						className='rounded-2xl mr-2 w-full max-h-[500px] object-cover'
 					/>
 					{/* Icons */}
