@@ -1,8 +1,17 @@
 import { SparklesIcon } from '@heroicons/react/outline';
-import { collection, doc, getDoc, onSnapshot, orderBy, query } from 'firebase/firestore';
+import {
+	addDoc,
+	collection,
+	doc,
+	getDoc,
+	onSnapshot,
+	orderBy,
+	query,
+	setDoc,
+} from 'firebase/firestore';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { db } from '../Firebase';
+import { auth, db } from '../Firebase';
 import ChatInput from './ChatInput';
 import ChatMessages from './ChatMessages';
 import Spinner from './Spinner';
@@ -11,21 +20,39 @@ const Chat = () => {
 	let { id } = useParams();
 	const scroll = useRef();
 
-	useEffect(() => {
-		const unsub = onSnapshot(doc(db, 'chat', id), (doc) => {
-			setMessages(doc.data().message);
-		});
+	useEffect(() => {}, []);
 
-		return unsub;
+	useEffect(() => {
+		const combinedUsers2 = auth.currentUser.uid + id;
+		let sortedStr = combinedUsers2.split('').sort().join('');
+		const docRef = doc(db, 'chat', sortedStr);
+		// Function for creating conversation if there is no conversation
+		function createDoc() {
+			setDoc(docRef, { message: [] });
+		}
+		//Fetching the conversation messages
+		try {
+			const unsub = onSnapshot(docRef, (doc) => {
+				if (doc.data() == undefined) {
+					createDoc();
+				} else {
+					setMessages(doc.data().message);
+				}
+			});
+
+			return unsub;
+		} catch (err) {
+			console.log(err);
+		}
 	}, [id]);
 
-	// useEffect(() => {
-	// 	scroll.current.scrollIntoView({ behavior: 'smooth' });
-	// });
+	useEffect(() => {
+		scroll?.current?.scrollIntoView({ behavior: 'smooth' });
+	});
 
-	// if (!messages) {
-	// 	return <Spinner />;
-	// }
+	if (!messages) {
+		return <Spinner />;
+	}
 	return (
 		<>
 			<div className='w-full h-screenoverflow-hidden'>

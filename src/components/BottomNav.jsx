@@ -17,15 +17,15 @@ const BottomNav = () => {
 
 	return (
 		<>
-			<div class='fixed bottom-0 z-50 w-full h-16 -translate-x-1/2 bg-white border border-gray-200 left-1/2 dark:bg-gray-700 dark:border-gray-600 sm:hidden'>
-				<div class='grid h-full max-w-lg grid-cols-5 mx-auto'>
+			<div className='fixed bottom-0 z-50 w-full h-16 -translate-x-1/2 bg-white border border-gray-200 left-1/2 dark:bg-gray-700 dark:border-gray-600 sm:hidden'>
+				<div className='grid h-full max-w-lg grid-cols-5 mx-auto'>
 					{/* Home */}
 					<Link
 						to={'/'}
 						title='Homep'
-						class='inline-flex flex-col items-center justify-center px-5 rounded-l-full hover:bg-gray-50 dark:hover:bg-gray-800 group'>
+						className='inline-flex flex-col items-center justify-center px-5 rounded-l-full hover:bg-gray-50 dark:hover:bg-gray-800 group'>
 						<svg
-							class='w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500'
+							className='w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500'
 							fill='currentColor'
 							viewBox='0 0 20 20'
 							xmlns='http://www.w3.org/2000/svg'>
@@ -36,20 +36,20 @@ const BottomNav = () => {
 					<Link
 						to={'/users'}
 						title='Users'
-						class='inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group'>
-						<UsersIcon class='w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' />
+						className='inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group'>
+						<UsersIcon className='w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' />
 					</Link>
 					{/* Add Post */}
-					<div title='New Post' class='flex items-center justify-center'>
-						<button class='inline-flex items-center justify-center w-10 h-10 font-medium bg-blue-600 rounded-full hover:bg-blue-700 group focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800'>
+					<div title='New Post' className='flex items-center justify-center'>
+						<button className='inline-flex items-center justify-center w-10 h-10 font-medium bg-blue-600 rounded-full hover:bg-blue-700 group focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800'>
 							<svg
-								class='w-6 h-6 text-white'
+								className='w-6 h-6 text-white'
 								fill='currentColor'
 								viewBox='0 0 20 20'
 								xmlns='http://www.w3.org/2000/svg'>
 								<path
-									clip-rule='evenodd'
-									fill-rule='evenodd'
+									clipRule='evenodd'
+									fillRule='evenodd'
 									d='M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z'></path>
 							</svg>
 						</button>
@@ -58,15 +58,15 @@ const BottomNav = () => {
 					<Link
 						to={'/explore'}
 						title='Explore'
-						class='inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group'>
-						<NewspaperIcon class='w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' />
+						className='inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group'>
+						<NewspaperIcon className='w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' />
 					</Link>
 					{/* Profile */}
 					<Link
 						to={`/profile/${user.uid}`}
 						title='Profile'
-						class='inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group'>
-						<UserIcon class='w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' />
+						className='inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group'>
+						<UserIcon className='w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' />
 					</Link>
 				</div>
 			</div>

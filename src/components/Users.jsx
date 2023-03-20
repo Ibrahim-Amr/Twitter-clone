@@ -1,13 +1,14 @@
 import { onAuthStateChanged } from 'firebase/auth';
 import { collection, doc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth, db } from '../Firebase';
 import { SparklesIcon } from '@heroicons/react/outline';
 
 const Users = () => {
 	const [users, setUser] = useState([]);
-	let navigate = useNavigate();
+
+	// fetching users except logged in user
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
@@ -22,13 +23,6 @@ const Users = () => {
 			}
 		});
 	}, []);
-
-	async function createChat(id) {
-		const combinedUsers2 = auth.currentUser.uid + id;
-		let sortedStr = combinedUsers2.split('').sort().join('');
-		// const docRef = await setDoc(doc(db, 'chat', sortedStr), {});
-		navigate(`/chat/${sortedStr}`);
-	}
 
 	return (
 		<>
@@ -58,14 +52,11 @@ const Users = () => {
 										{user.data().email}
 									</p>
 								</div>
-								<span
-									onClick={() => {
-										createChat(user.data().id);
-										// sendFriendRequest(user.data().id);
-									}}
-									class='inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-blue-400 dark:text-white dark:border-gray-400 hover:dark:bg-blue-500  cursor-pointer shadow-md'>
-									Message
-								</span>
+								<Link to={`/chat/${user.data().id}`}>
+									<span className='inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-blue-400 dark:text-white dark:border-gray-400 hover:dark:bg-blue-500  cursor-pointer shadow-md'>
+										Message
+									</span>
+								</Link>
 							</div>
 						</li>
 					))}

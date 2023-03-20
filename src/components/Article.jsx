@@ -23,12 +23,12 @@ const Article = ({ post }) => {
 						/>
 					</Link>
 					<div>
-						<div class='group-hover:inline-block hidden absolute top-0 left-full  z-10  w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-gray-100 border-gray-200 rounded-lg shadow-sm  dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600 cursor-default'>
-							<div class='p-3'>
-								<div class='flex items-center justify-between mb-2'>
+						<div className='group-hover:inline-block hidden absolute top-0 left-full  z-10  w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-gray-100 border-gray-200 rounded-lg shadow-sm  dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600 cursor-default'>
+							<div className='p-3'>
+								<div className='flex items-center justify-between mb-2'>
 									<span>
 										<img
-											class='w-10 h-10 rounded-full'
+											className='w-10 h-10 rounded-full'
 											src={post.data().autherImg}
 											alt='Jese Leos'
 										/>
@@ -36,12 +36,12 @@ const Article = ({ post }) => {
 									<div>
 										<button
 											type='button'
-											class='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'>
+											className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'>
 											Message
 										</button>
 									</div>
 								</div>
-								<p class='text-base font-semibold leading-none text-gray-900 dark:text-white'>
+								<p className='text-base font-semibold leading-none text-gray-900 dark:text-white'>
 									{post.data().autherName}
 									{' · '}
 									<span className='text-sm text-gray-700'>

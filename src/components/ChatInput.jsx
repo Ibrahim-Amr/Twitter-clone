@@ -8,19 +8,21 @@ const ChatInput = ({ scroll }) => {
 	const [inputValue, setInputValue] = useState('');
 	let { id } = useParams();
 
-	function onChange(e) {
-		setInputValue(e.target.value);
-	}
 	function generateUniqueId() {
 		const timestamp = new Date().getTime();
 		const random = Math.floor(Math.random() * 1000000);
 		const uniqueId = `${timestamp}-${random}`;
 		return uniqueId;
 	}
+
 	async function addPost(e) {
 		e.preventDefault();
+		// Creating the conversation id between two users
+		const combinedUsers2 = auth.currentUser.uid + id;
+		let combinedId = combinedUsers2.split('').sort().join('');
+
 		try {
-			const ref = doc(db, 'chat', id);
+			const ref = doc(db, 'chat', combinedId);
 			const docRef = await updateDoc(ref, {
 				message: arrayUnion({
 					id: generateUniqueId(),
@@ -34,10 +36,11 @@ const ChatInput = ({ scroll }) => {
 			toast.success('message sent');
 		} catch (err) {
 			console.log(err);
+			console.log(alert('test'));
 		}
 	}
 	useEffect(() => {
-		scroll.current.scrollIntoView({ behavior: 'smooth' });
+		scroll?.current?.scrollIntoView({ behavior: 'smooth' });
 	}, [inputValue]);
 	return (
 		<>
@@ -51,7 +54,7 @@ const ChatInput = ({ scroll }) => {
 						className='block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700'
 						name='message'
 						required
-						onChange={onChange}
+						onChange={(e) => setInputValue(e.target.value)}
 						value={inputValue}
 					/>
 
