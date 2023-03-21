@@ -1,4 +1,3 @@
-import { async } from '@firebase/util';
 import {
 	ChartBarIcon,
 	ChatIcon,
@@ -13,6 +12,7 @@ import { deleteObject, ref } from 'firebase/storage';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { auth, db, storage } from '../Firebase';
+import { motion } from 'framer-motion';
 
 const Article = ({ post }) => {
 	const [likes, setLikes] = useState([]);
@@ -57,7 +57,13 @@ const Article = ({ post }) => {
 
 	return (
 		<>
-			<article className='flex justify-between items-start px-3 py-1 cursor-pointer border-b border-b-gray-200 dark:border-blue-50/20 relative'>
+			<motion.article
+				initial={{ opacity: 0 }}
+				animate={{ opacity: 1 }}
+				exit={{ opacity: 0 }}
+				transition={{ duration: 1 }}
+				className='flex justify-between items-start px-3 py-1 cursor-pointer border-b
+				border-b-gray-200 dark:border-blue-50/20 relative'>
 				{/* user image */}
 				<div className='group relative'>
 					<Link to={`profile/${post.data().auther}`}>
@@ -101,7 +107,6 @@ const Article = ({ post }) => {
 						</div>
 					</div>
 				</div>
-
 				{/* Right Side */}
 				<div className='w-full '>
 					{/* Header */}
@@ -173,7 +178,7 @@ const Article = ({ post }) => {
 						)}
 					</div>
 				</div>
-			</article>
+			</motion.article>
 		</>
 	);
 };

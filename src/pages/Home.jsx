@@ -25,14 +25,7 @@ const Home = () => {
 			{/* Article Component */}
 			<AnimatePresence>
 				{posts.map((post, id) => (
-					<motion.div
-						key={post.id}
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
-						transition={{ duration: 1 }}>
-						<Article post={post} key={id} />
-					</motion.div>
+					<Article post={post} key={post.id} />
 				))}
 			</AnimatePresence>
 		</div>
