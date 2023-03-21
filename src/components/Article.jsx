@@ -12,10 +12,12 @@ import { Link } from 'react-router-dom';
 import { auth, db, storage } from '../Firebase';
 
 const Article = ({ post }) => {
-	async function deletePost() {
-		if (alert('Are you sure you want to delete this post?')) {
-			await deleteDoc(doc(db, 'posts', post.id));
-			deleteObject(ref(storage, `posts/${post.id}`));
+	function deletePost() {
+		if (window.confirm('Are you sure you want to delete this post?')) {
+			deleteDoc(doc(db, 'posts', post.id));
+			if (post.data().image) {
+				deleteObject(ref(storage, `posts/${post.id}`));
+			}
 		}
 	}
 
