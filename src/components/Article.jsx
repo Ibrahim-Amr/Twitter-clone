@@ -1,3 +1,4 @@
+import { async } from '@firebase/util';
 import {
 	ChartBarIcon,
 	ChatIcon,
@@ -6,12 +7,33 @@ import {
 	ShareIcon,
 	TrashIcon,
 } from '@heroicons/react/outline';
-import { deleteDoc, doc } from 'firebase/firestore';
+import { HeartIcon as HeartSolid } from '@heroicons/react/solid';
+import { collection, deleteDoc, doc, onSnapshot, setDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { auth, db, storage } from '../Firebase';
 
 const Article = ({ post }) => {
+	const [likes, setLikes] = useState([]);
+	const [hasLiked, setHasLiked] = useState(false);
+
+	useEffect(() => {
+		const unsubscribe = onSnapshot(collection(db, 'posts', post.id, 'likes'), (snapshot) =>
+			setLikes(snapshot.docs)
+		);
+		return unsubscribe;
+	}, [db]);
+
+	useEffect(() => {
+		const likeIndex = likes.findIndex((like) => like.id === auth?.currentUser?.uid);
+		if (likeIndex > -1) {
+			setHasLiked(true);
+		} else {
+			setHasLiked(false);
+		}
+	}, [likes]);
+
 	function deletePost() {
 		if (window.confirm('Are you sure you want to delete this post?')) {
 			deleteDoc(doc(db, 'posts', post.id));
@@ -20,6 +42,18 @@ const Article = ({ post }) => {
 			}
 		}
 	}
+
+	async function likePost() {
+		if (hasLiked) {
+			await deleteDoc(doc(db, 'posts', post.id, 'likes', auth?.currentUser?.uid));
+		} else {
+			await setDoc(doc(db, 'posts', post.id, 'likes', auth?.currentUser?.uid), {
+				username: auth?.currentUser?.displayName,
+			});
+		}
+	}
+
+	// async function deleteLike() {}
 
 	return (
 		<>
@@ -111,7 +145,25 @@ const Article = ({ post }) => {
 					<div className='flex justify-between items-center text-gray-500 dark:text-white my-1'>
 						<ChatIcon className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100' />
 						<ShareIcon className='h-9 w-9 hoverEffect p-2 hover:text-green-500 hover:bg-green-100' />
-						<HeartIcon className='h-9 w-9 hoverEffect p-2 hover:text-pink-500 hover:bg-pink-100' />
+						<div className='flex items-center'>
+							{hasLiked ? (
+								<HeartSolid
+									onClick={likePost}
+									className='h-9 w-9 hoverEffect p-2 text-red-600 hover:bg-red-100'
+								/>
+							) : (
+								<HeartIcon
+									onClick={likePost}
+									className='h-9 w-9 hoverEffect p-2 hover:text-pink-500 hover:bg-pink-100'
+								/>
+							)}
+							{likes.length > 0 && (
+								<span className={`${hasLiked && 'text-red-600'} text-sm`}>
+									{likes.length}
+								</span>
+							)}
+						</div>
+
 						<ChartBarIcon className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100' />
 						{post?.data()?.auther === auth?.currentUser?.uid && (
 							<TrashIcon
