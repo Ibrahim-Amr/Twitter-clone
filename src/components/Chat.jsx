@@ -9,6 +9,7 @@ import {
 	query,
 	setDoc,
 } from 'firebase/firestore';
+import { AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -64,8 +65,12 @@ const Chat = () => {
 					</span>
 				</div>
 				<div className='w-full p-6 overflow-y-auto h-[calc(100vh-120px)]'>
-					{messages &&
-						messages.map((message, index) => <ChatMessages key={index} message={message} />)}
+					<AnimatePresence>
+						{messages &&
+							messages.map((message, index) => (
+								<ChatMessages key={index} message={message} />
+							))}
+					</AnimatePresence>
 					<div ref={scroll}></div>
 				</div>
 				<ChatInput scroll={scroll} />

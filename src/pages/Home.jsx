@@ -1,4 +1,5 @@
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import Article from '../components/Article';
 import HomeHeader from '../components/HomeHeader';
@@ -22,12 +23,18 @@ const Home = () => {
 			{/* Input Component */}
 			<Input />
 			{/* Article Component */}
-			{/* {posts.map((post) => (
-				<Article post={post} key={post.id} />
-			))} */}
-			{posts.map((post, id) => (
-				<Article post={post} key={id} />
-			))}
+			<AnimatePresence>
+				{posts.map((post, id) => (
+					<motion.div
+						key={post.id}
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						transition={{ duration: 1 }}>
+						<Article post={post} key={id} />
+					</motion.div>
+				))}
+			</AnimatePresence>
 		</div>
 	);
 };
