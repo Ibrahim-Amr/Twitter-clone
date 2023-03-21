@@ -6,9 +6,19 @@ import {
 	ShareIcon,
 	TrashIcon,
 } from '@heroicons/react/outline';
+import { deleteDoc, doc } from 'firebase/firestore';
+import { deleteObject, ref } from 'firebase/storage';
 import { Link } from 'react-router-dom';
+import { auth, db, storage } from '../Firebase';
 
 const Article = ({ post }) => {
+	async function deletePost() {
+		if (alert('Are you sure you want to delete this post?')) {
+			await deleteDoc(doc(db, 'posts', post.id));
+			deleteObject(ref(storage, `posts/${post.id}`));
+		}
+	}
+
 	return (
 		<>
 			<article className='flex justify-between items-start px-3 py-1 cursor-pointer border-b border-b-gray-200 dark:border-blue-50/20 relative'>
@@ -33,13 +43,16 @@ const Article = ({ post }) => {
 											alt='Jese Leos'
 										/>
 									</span>
-									<div>
-										<button
-											type='button'
-											className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'>
-											Message
-										</button>
-									</div>
+									{post.data().auther !== auth.currentUser.uid && (
+										<div>
+											<Link
+												to={`/chat/${post.data().auther}`}
+												type='button'
+												className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'>
+												Message
+											</Link>
+										</div>
+									)}
 								</div>
 								<p className='text-base font-semibold leading-none text-gray-900 dark:text-white'>
 									{post.data().autherName}
@@ -83,19 +96,27 @@ const Article = ({ post }) => {
 						{post.data().text}
 					</p>
 					{/* post Image */}
-					<img
-						src={post.data().image}
-						alt='post image'
-						loading='lazy'
-						className='rounded-2xl mr-2 w-full max-h-[500px] object-cover'
-					/>
+					{post.data().image && (
+						<img
+							src={post.data().image}
+							alt='post image'
+							loading='lazy'
+							className='rounded-2xl mr-2 w-full max-h-[500px] object-cover'
+						/>
+					)}
+
 					{/* Icons */}
 					<div className='flex justify-between items-center text-gray-500 dark:text-white my-1'>
 						<ChatIcon className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100' />
 						<ShareIcon className='h-9 w-9 hoverEffect p-2 hover:text-green-500 hover:bg-green-100' />
 						<HeartIcon className='h-9 w-9 hoverEffect p-2 hover:text-pink-500 hover:bg-pink-100' />
 						<ChartBarIcon className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100' />
-						<TrashIcon className='h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100' />
+						{post?.data()?.auther === auth?.currentUser?.uid && (
+							<TrashIcon
+								onClick={deletePost}
+								className='h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100'
+							/>
+						)}
 					</div>
 				</div>
 			</article>

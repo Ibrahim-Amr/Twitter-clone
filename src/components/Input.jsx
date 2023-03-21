@@ -27,6 +27,12 @@ const Input = () => {
 		};
 	}
 
+	function generateUniqueId() {
+		const timestamp = new Date().getTime();
+		const random = Math.floor(Math.random() * 1000000);
+		const uniqueId = `${timestamp}-${random}`;
+		return uniqueId;
+	}
 	async function addPost() {
 		try {
 			if (loading) {
@@ -34,7 +40,7 @@ const Input = () => {
 			}
 			setLoading(true);
 			const docRef = await addDoc(collection(db, 'posts'), {
-				id: userInfo.uid,
+				id: generateUniqueId(),
 				auther: userInfo.uid,
 				autherName: userInfo.displayName,
 				autherImg: userInfo.photoURL,

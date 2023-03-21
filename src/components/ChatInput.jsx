@@ -7,20 +7,20 @@ import { auth, db } from '../Firebase';
 const ChatInput = ({ scroll }) => {
 	const [inputValue, setInputValue] = useState('');
 	let { id } = useParams();
-
+	//function to generate id for each message
 	function generateUniqueId() {
 		const timestamp = new Date().getTime();
 		const random = Math.floor(Math.random() * 1000000);
 		const uniqueId = `${timestamp}-${random}`;
 		return uniqueId;
 	}
-
+	//adding post to firestore
 	async function addPost(e) {
 		e.preventDefault();
-		// Creating the conversation id between two users
-		const combinedUsers2 = auth.currentUser.uid + id;
-		let combinedId = combinedUsers2.split('').sort().join('');
 
+		// Creating the conversation id between two users
+		const combinedUsers = auth.currentUser.uid + id;
+		let combinedId = combinedUsers.split('').sort().join('');
 		try {
 			const ref = doc(db, 'chat', combinedId);
 			const docRef = await updateDoc(ref, {
@@ -35,10 +35,10 @@ const ChatInput = ({ scroll }) => {
 			setInputValue('');
 			toast.success('message sent');
 		} catch (err) {
-			console.log(err);
-			console.log(alert('test'));
+			toast.error('Could not send the message, please try again later.');
 		}
 	}
+
 	useEffect(() => {
 		scroll?.current?.scrollIntoView({ behavior: 'smooth' });
 	}, [inputValue]);

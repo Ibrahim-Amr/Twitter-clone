@@ -11,7 +11,7 @@ import {
 	UsersIcon,
 } from '@heroicons/react/outline';
 import SidebarMenuItem from './SidebarMenuItem';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { auth } from '../Firebase';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -51,22 +51,22 @@ const Sidebar = () => {
 				</div>
 				{/* Menu */}
 				<div className='mt-4 mb-2.5 xl:items-start'>
-					<Link to={'/'}>
-						<SidebarMenuItem text={'Home'} Icon={HomeIcon} active />
-					</Link>
-					<Link to={'/explore'}>
+					<NavLink to={'/'}>
+						<SidebarMenuItem text={'Home'} Icon={HomeIcon} />
+					</NavLink>
+					<NavLink to={'/explore'}>
 						<SidebarMenuItem text={'Explore'} Icon={HashtagIcon} />
-					</Link>
-					<Link >
-						<SidebarMenuItem text={'Profile'} Icon={UserIcon} />
-					</Link>
-					<Link to={'/users'}>
-						<SidebarMenuItem text={'Users'} Icon={UsersIcon} />
-					</Link>
-					{/* <SidebarMenuItem text={'Notifications'} Icon={BellIcon} /> */}
-					<Link to={'/users'}>
+					</NavLink>
+					<NavLink to={'/users'}>
 						<SidebarMenuItem text={'Messages'} Icon={InboxIcon} />
-					</Link>
+					</NavLink>
+					{/* <NavLink to={`/profile/${auth.currentUser.uid}`}>
+						<SidebarMenuItem text={'Profile'} Icon={UserIcon} />
+					</NavLink> */}
+					{/* <NavLink to={'/users'}>
+						<SidebarMenuItem text={'Users'} Icon={UsersIcon} />
+					</NavLink> */}
+					{/* <SidebarMenuItem text={'Notifications'} Icon={BellIcon} /> */}
 					{/* <SidebarMenuItem text={'Bookmark'} Icon={BookmarkIcon} /> */}
 					{/* <SidebarMenuItem text={'Lists'} Icon={ClipboardIcon} /> */}
 					{/* <SidebarMenuItem text={'More'} Icon={DotsCircleHorizontalIcon} /> */}

@@ -11,6 +11,7 @@ import {
 } from 'firebase/firestore';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { auth, db } from '../Firebase';
 import ChatInput from './ChatInput';
 import ChatMessages from './ChatMessages';
@@ -42,6 +43,7 @@ const Chat = () => {
 
 			return unsub;
 		} catch (err) {
+			toast.error("Couldn't connect to database, Please try again later");
 			console.log(err);
 		}
 	}, [id]);
