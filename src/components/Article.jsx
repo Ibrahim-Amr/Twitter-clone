@@ -7,79 +7,62 @@ import {
 	TrashIcon,
 } from '@heroicons/react/outline';
 import { HeartIcon as HeartSolid } from '@heroicons/react/solid';
-import { collection, deleteDoc, doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { arrayRemove, arrayUnion, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth, db, storage } from '../Firebase';
 import { motion } from 'framer-motion';
 import { useRecoilState } from 'recoil';
 import { modalState, postIdState } from '../../atom/modalAtom';
 
 const Article = ({ post }) => {
-	const [likes, setLikes] = useState([]);
-	const [comments, setComments] = useState([]);
-	const [commented, setCommented] = useState(false);
 	const [hasLiked, setHasLiked] = useState(false);
 	const [openModal, setOpenModal] = useRecoilState(modalState);
 	const [postId, setPostId] = useRecoilState(postIdState);
-
-	// Fetch Likes
-	useEffect(() => {
-		const unsubscribe = onSnapshot(collection(db, 'posts', post.id, 'likes'), (snapshot) =>
-			setLikes(snapshot.docs)
-		);
-		return unsubscribe;
-	}, [db]);
-
-	// Fetch Comments
-	useEffect(() => {
-		const unsubscribe = onSnapshot(collection(db, 'posts', post.id, 'comments'), (snapshot) => {
-			setComments(snapshot.docs);
-			console.log(comments.data());
-		});
-		return unsubscribe;
-	}, [db]);
+	let navigate = useNavigate();
 
 	// See if the logged user Liked the post
 	useEffect(() => {
-		const likeIndex = likes.findIndex((like) => like.id === auth?.currentUser?.uid);
+		const likeIndex = post?.data().Likes.findIndex((like) => like.id === auth?.currentUser?.uid);
 		if (likeIndex > -1) {
 			setHasLiked(true);
 		} else {
 			setHasLiked(false);
 		}
-	}, [likes]);
+	}, [post]);
 
-	// See if the logged user commented
-	useEffect(() => {
-		const commentId = comments.findIndex((comment) => comment.id === auth?.currentUser?.uid);
-		if (commentId > -1) {
-			setCommented(true);
-		} else {
-			setCommented(false);
-		}
-	}, [comments]);
-
+	// Delete post Function
 	async function deletePost() {
 		if (window.confirm('Are you sure you want to delete this post?')) {
-			await deleteDoc(doc(db, 'posts', post.id, 'likes', auth.currentUser.uid));
-			await deleteDoc(doc(db, 'posts', post.id, 'comments', auth.currentUser.uid));
-			await deleteDoc(doc(db, 'posts', post.id));
+			let docRef = doc(db, 'posts', post.id);
+			await deleteDoc(docRef);
 			if (post.data().image) {
 				await deleteObject(ref(storage, `posts/${post.id}`));
 			}
 		}
 	}
 
+	// Toggle like post function
 	async function likePost() {
-		if (hasLiked) {
-			await deleteDoc(doc(db, 'posts', post.id, 'likes', auth?.currentUser?.uid));
-		} else {
-			await setDoc(doc(db, 'posts', post.id, 'likes', auth?.currentUser?.uid), {
-				username: auth?.currentUser?.displayName,
-			});
+		const ref = doc(db, 'posts', post.id);
+		try {
+			if (hasLiked) {
+				await updateDoc(ref, {
+					Likes: arrayRemove({ id: auth?.currentUser?.uid }),
+				});
+			} else {
+				const docRef = await updateDoc(ref, {
+					Likes: arrayUnion({ id: auth?.currentUser?.uid }),
+				});
+			}
+		} catch (err) {
+			console.log(err);
 		}
+	}
+
+	function navigateToPost() {
+		navigate(`/post/${post.id}`);
 	}
 
 	return (
@@ -90,7 +73,8 @@ const Article = ({ post }) => {
 				exit={{ opacity: 0 }}
 				transition={{ duration: 0.5 }}
 				className='flex justify-between items-start px-3 py-1 cursor-pointer border-b
-				border-b-gray-200 dark:border-blue-50/20 relative'>
+				border-b-gray-200 dark:border-blue-50/20 relative'
+				onClick={navigateToPost}>
 				{/* user image */}
 				<div className='group relative'>
 					<Link to={`profile/${post.data().auther}`}>
@@ -183,10 +167,8 @@ const Article = ({ post }) => {
 								}}
 								className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100'
 							/>
-							{comments.length > 0 && (
-								<span className={`${commented && 'text-blue-500'} text-sm`}>
-									{comments.length}
-								</span>
+							{post?.data()?.comments?.length > 0 && (
+								<span className='text-sm'>{post?.data()?.comments?.length}</span>
 							)}
 						</div>
 						<ShareIcon className='h-9 w-9 hoverEffect p-2 hover:text-green-500 hover:bg-green-100' />
@@ -202,9 +184,9 @@ const Article = ({ post }) => {
 									className='h-9 w-9 hoverEffect p-2 hover:text-pink-500 hover:bg-pink-100'
 								/>
 							)}
-							{likes.length > 0 && (
+							{post?.data()?.Likes.length > 0 && (
 								<span className={`${hasLiked && 'text-red-600'} text-sm`}>
-									{likes.length}
+									{post?.data()?.Likes.length}
 								</span>
 							)}
 						</div>

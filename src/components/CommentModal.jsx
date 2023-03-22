@@ -4,8 +4,17 @@ import Modal from 'react-modal';
 import { EmojiHappyIcon, PhotographIcon, XIcon } from '@heroicons/react/outline';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../Firebase';
-import { addDoc, collection, doc, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
+import {
+	addDoc,
+	arrayUnion,
+	collection,
+	doc,
+	onSnapshot,
+	serverTimestamp,
+	updateDoc,
+} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const CommentModal = () => {
 	const [openModal, setOpenModal] = useRecoilState(modalState);
@@ -22,24 +31,41 @@ const CommentModal = () => {
 		return unsubscribe;
 	}, [postId, db]);
 
-	async function sendComment() {
-		let docRef = doc(db, 'posts', postId, 'comments', auth?.currentUser?.uid);
-		await setDoc(docRef, {
-			id: auth.currentUser.uid,
-			comment: input,
-			name: auth?.currentUser?.displayName,
-			userImg: auth?.currentUser?.photoURL,
-			timestamp: serverTimestamp(),
-		});
-		setOpenModal(false);
-		setInput('');
-		// navigate(`post/${postId}`);
+	function generateUniqueId() {
+		const timestamp = new Date().getTime();
+		const random = Math.floor(Math.random() * 1000000);
+		const uniqueId = `${timestamp}-${random}`;
+		return uniqueId;
 	}
+
+	async function sendComment() {
+		try {
+			const ref = doc(db, 'posts', postId);
+			const docRef = await updateDoc(ref, {
+				comments: arrayUnion({
+					id: generateUniqueId(),
+					comment: input,
+					name: auth?.currentUser?.displayName,
+					userImg: auth?.currentUser?.photoURL,
+				}),
+			});
+			setOpenModal(false);
+			setInput('');
+			navigate(`post/${postId}`);
+			toast.success('Comment Added');
+		} catch (err) {
+			// console.log(err);
+			toast.error('Could not add the comment, please try again later.');
+		}
+	}
+
 	return (
 		<div className='text-black dark:text-white'>
 			{openModal && (
 				<Modal
 					isOpen={openModal}
+					contentLabel='Comments'
+					ariaHideApp={false}
 					onRequestClose={() => setOpenModal(false)}
 					className='max-w-xl w-[90%] absolute top-24 left-[50%] translate-x-[-50%] bg-white dark:bg-black border-2 border-gray-200 outline-none rounded-xl shadow-md text-black dark:text-white'>
 					<div className='p-1'>

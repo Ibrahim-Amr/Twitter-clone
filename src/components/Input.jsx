@@ -45,6 +45,8 @@ const Input = () => {
 				autherName: userInfo.displayName,
 				autherImg: userInfo.photoURL,
 				text: post,
+				Likes: [],
+				comments: [],
 				timestamp: serverTimestamp(),
 			});
 

@@ -1,4 +1,4 @@
-import { arrayUnion, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -14,13 +14,15 @@ const ChatInput = ({ scroll }) => {
 		const uniqueId = `${timestamp}-${random}`;
 		return uniqueId;
 	}
-	//adding post to firestore
+
+	//adding message to firestore
 	async function addPost(e) {
 		e.preventDefault();
 
 		// Creating the conversation id between two users
 		const combinedUsers = auth.currentUser.uid + id;
 		let combinedId = combinedUsers.split('').sort().join('');
+		
 		try {
 			const ref = doc(db, 'chat', combinedId);
 			const docRef = await updateDoc(ref, {
