@@ -73,8 +73,7 @@ const Article = ({ post }) => {
 				exit={{ opacity: 0 }}
 				transition={{ duration: 0.5 }}
 				className='flex justify-between items-start px-3 py-1 cursor-pointer border-b
-				border-b-gray-200 dark:border-blue-50/20 relative'
-				onClick={navigateToPost}>
+				border-b-gray-200 dark:border-blue-50/20 relative'>
 				{/* user image */}
 				<div className='group relative'>
 					<Link to={`profile/${post.data().auther}`}>
@@ -137,7 +136,7 @@ const Article = ({ post }) => {
 							<span className='text-sm sm:text-[15px] hover:underline text-gray-700 dark:text-gray-300'>
 								{/* DATE */}
 
-								{/* {post.data().timestamp.seconds} */}
+								{post?.data()?.timestamp.seconds}
 							</span>
 						</div>
 						{/* dot icon */}
@@ -151,6 +150,7 @@ const Article = ({ post }) => {
 					{post.data().image && (
 						<img
 							src={post.data().image}
+							onClick={navigateToPost}
 							alt='post image'
 							loading='lazy'
 							className='rounded-2xl mr-2 w-full max-h-[500px] object-cover'
