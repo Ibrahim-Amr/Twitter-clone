@@ -13,20 +13,25 @@ import Users from './components/Users';
 import Chat from './components/Chat';
 import 'flowbite';
 import BottomNav from './components/BottomNav';
+import Modal from './components/Modal';
+import { RecoilRoot } from 'recoil';
 
 const LayOut = () => {
 	return (
 		<>
-			<main className='flex items-start min-h-screen sm:max-w-2xl lg:max-w-5xl xl:max-w-7xl mx-auto '>
+			<main className='home-container'>
 				{/* Sidebar */}
 				<Sidebar />
 				{/* Outlet Middle Section */}
-				<section className='xl:ml-[300px] sm:ml-[73px] w-full  md:min-w-[36rem]  sm:max-w-xl  min-h-screen border-x border-gray-200 dark:border-gray-50/20'>
+				<section className='outlet-container'>
 					<Outlet />
 				</section>
 				{/* Widgets  */}
 				<Widgets />
+				{/* Mobile nav */}
 				<BottomNav />
+				{/* Modal */}
+				<Modal />
 				<ScrollRestoration />
 			</main>
 		</>
@@ -89,19 +94,21 @@ let route = createBrowserRouter([
 function App() {
 	return (
 		<>
-			<RouterProvider router={route}></RouterProvider>
-			<ToastContainer
-				position='top-right'
-				autoClose={2005}
-				hideProgressBar={false}
-				newestOnTop={false}
-				closeOnClick
-				rtl={false}
-				pauseOnFocusLoss
-				draggable
-				pauseOnHover
-				theme='light'
-			/>
+			<RecoilRoot>
+				<RouterProvider router={route}></RouterProvider>
+				<ToastContainer
+					position='top-right'
+					autoClose={2005}
+					hideProgressBar={false}
+					newestOnTop={false}
+					closeOnClick
+					rtl={false}
+					pauseOnFocusLoss
+					draggable
+					pauseOnHover
+					theme='light'
+				/>
+			</RecoilRoot>
 		</>
 	);
 }

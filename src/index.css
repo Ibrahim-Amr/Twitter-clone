@@ -6,12 +6,18 @@
 	.hoverEffect {
 		@apply cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-50/10 rounded-full w-[52px] xl:w-auto h-[52px] xl:h-auto xl:p-3 duration-100 ease-in-out active:scale-95;
 	}
+	.home-container {
+		@apply flex items-start min-h-screen sm:max-w-2xl lg:max-w-5xl xl:max-w-7xl mx-auto;
+	}
+	.outlet-container {
+		@apply xl:ml-[300px] sm:ml-[73px] w-full  md:min-w-[36rem]  sm:max-w-xl  min-h-screen border-x border-gray-200 dark:border-gray-50/20;
+	}
 }
 
 html {
 	scroll-behavior: smooth;
 }
 
-.active{
+.active {
 	font-weight: bold;
 }

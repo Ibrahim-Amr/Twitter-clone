@@ -8,6 +8,7 @@ const ProtectedRoute = ({ children }) => {
 	if (checkingStatus) {
 		return <Spinner />;
 	}
+
 	return loggedIn ? children : <Navigate to={'/login'} />;
 };
 

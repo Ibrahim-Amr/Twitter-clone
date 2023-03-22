@@ -1,14 +1,4 @@
-import { SparklesIcon } from '@heroicons/react/outline';
-import {
-	addDoc,
-	collection,
-	doc,
-	getDoc,
-	onSnapshot,
-	orderBy,
-	query,
-	setDoc,
-} from 'firebase/firestore';
+import { doc, onSnapshot, setDoc } from 'firebase/firestore';
 import { AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -22,12 +12,10 @@ const Chat = () => {
 	let { id } = useParams();
 	const scroll = useRef();
 
-	useEffect(() => {}, []);
-
 	useEffect(() => {
 		const combinedUsers2 = auth.currentUser.uid + id;
-		let sortedStr = combinedUsers2.split('').sort().join('');
-		const docRef = doc(db, 'chat', sortedStr);
+		let combinedId = combinedUsers2.split('').sort().join('');
+		const docRef = doc(db, 'chat', combinedId);
 		// Function for creating conversation if there is no conversation
 		function createDoc() {
 			setDoc(docRef, { message: [] });
@@ -56,6 +44,7 @@ const Chat = () => {
 	if (!messages) {
 		return <Spinner />;
 	}
+
 	return (
 		<>
 			<div className='w-full h-screenoverflow-hidden'>

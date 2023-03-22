@@ -26,30 +26,32 @@ const Users = () => {
 
 	return (
 		<>
-			<div className='text-gray-700 dark:text-white p-3'>
+			<div className='text-gray-700 dark:text-white py-3'>
 				<div className='sticky top-0 z-50 flex justify-between items-center bg-white dark:bg-black border-b border-gray-200 dark:border-gray-50/20 pb-3'>
-					<h2 className='text-lg sm:text-xl font-bold cursor-pointer'>Messages</h2>
-					<div className='hoverEffect flex justify-center items-center p-0 w-9 h-9'>
+					<h2 className='text-lg sm:text-xl font-bold cursor-pointer ml-3'>Users</h2>
+					<div className='hoverEffect flex justify-center items-center p-0 w-9 h-9 mr-3'>
 						<SparklesIcon className='h-5' />
 					</div>
 				</div>
-				<ul role='list' className=' divide-y divide-gray-200 dark:divide-gray-700 w-full '>
+				<ul role='list' className=' divide-y divide-gray-200 dark:divide-gray-700 w-full px-3'>
 					{users.map((user) => (
 						<li key={user.data().name} className='py-3 sm:py-4'>
 							<div className='flex items-center space-x-3'>
 								<div className='flex-shrink-0'>
 									<img
-										className='w-8 h-8 rounded-full'
+										className='w-8 h-8 rounded-full bg-gray-600 dark:bg-gray-200 overflow-hidden'
 										src={user.data().avatar}
 										alt={user.data().name}
 									/>
 								</div>
-								<div className='flex-1 min-w-0'>
+								<div className='flex-1 justify-start min-w-0'>
 									<h2 className='text-base font-semibold text-gray-900 truncate dark:text-white'>
 										{user.data().name}
 									</h2>
 									<p className='text-sm text-gray-500 truncate dark:text-gray-400'>
-										{user.data().email}
+										{/* {user.data().email} */}
+										Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae,
+										maxime.
 									</p>
 								</div>
 								<Link to={`/chat/${user.data().id}`}>

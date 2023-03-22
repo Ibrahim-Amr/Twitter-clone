@@ -13,10 +13,13 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { auth, db, storage } from '../Firebase';
 import { motion } from 'framer-motion';
+import { useRecoilState } from 'recoil';
+import { modalState } from '../../atom/modalAtom';
 
 const Article = ({ post }) => {
 	const [likes, setLikes] = useState([]);
 	const [hasLiked, setHasLiked] = useState(false);
+	const [openModal, setOpenModal] = useRecoilState(modalState);
 
 	useEffect(() => {
 		const unsubscribe = onSnapshot(collection(db, 'posts', post.id, 'likes'), (snapshot) =>
@@ -34,11 +37,12 @@ const Article = ({ post }) => {
 		}
 	}, [likes]);
 
-	function deletePost() {
+	async function deletePost() {
 		if (window.confirm('Are you sure you want to delete this post?')) {
-			deleteDoc(doc(db, 'posts', post.id));
+			await deleteDoc(doc(db, 'posts', post.id, 'likes', auth?.currentUser?.uid));
+			await deleteDoc(doc(db, 'posts', post.id));
 			if (post.data().image) {
-				deleteObject(ref(storage, `posts/${post.id}`));
+				await deleteObject(ref(storage, `posts/${post.id}`));
 			}
 		}
 	}
@@ -53,15 +57,13 @@ const Article = ({ post }) => {
 		}
 	}
 
-	// async function deleteLike() {}
-
 	return (
 		<>
 			<motion.article
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
 				exit={{ opacity: 0 }}
-				transition={{ duration: 1 }}
+				transition={{ duration: 0.5 }}
 				className='flex justify-between items-start px-3 py-1 cursor-pointer border-b
 				border-b-gray-200 dark:border-blue-50/20 relative'>
 				{/* user image */}
@@ -148,7 +150,10 @@ const Article = ({ post }) => {
 
 					{/* Icons */}
 					<div className='flex justify-between items-center text-gray-500 dark:text-white my-1'>
-						<ChatIcon className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100' />
+						<ChatIcon
+							onClick={() => setOpenModal((prevState) => !prevState)}
+							className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100'
+						/>
 						<ShareIcon className='h-9 w-9 hoverEffect p-2 hover:text-green-500 hover:bg-green-100' />
 						<div className='flex items-center'>
 							{hasLiked ? (
