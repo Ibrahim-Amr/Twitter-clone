@@ -5,17 +5,17 @@ import { auth, db, storage } from '../Firebase';
 import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { useRecoilState } from 'recoil';
+import { postModalState } from '../../atom/modalAtom';
 
 const Input = () => {
 	const [userInfo, setUserInfo] = useState({});
 	const [post, setPost] = useState('');
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [openModal, setOpenModal] = useRecoilState(postModalState);
 
-	function onChange(e) {
-		setPost(e.target.value);
-	}
-
+	// convert image to data string
 	function addImageToPost(e) {
 		const reader = new FileReader();
 		if (e.target.files[0]) {
@@ -27,18 +27,19 @@ const Input = () => {
 		};
 	}
 
+	//Random Id for the post
 	function generateUniqueId() {
 		const timestamp = new Date().getTime();
 		const random = Math.floor(Math.random() * 1000000);
 		const uniqueId = `${timestamp}-${random}`;
 		return uniqueId;
 	}
+
+	//  add post to firestore
 	async function addPost() {
 		try {
-			if (loading) {
-				return;
-			}
 			setLoading(true);
+			// Adding post to firestore
 			const docRef = await addDoc(collection(db, 'posts'), {
 				id: generateUniqueId(),
 				auther: userInfo.uid,
@@ -50,6 +51,7 @@ const Input = () => {
 				timestamp: serverTimestamp(),
 			});
 
+			//Uploading imgate to firebase stoarge then adding the link to the post
 			const imageRef = ref(storage, `posts/${docRef.id}`);
 			if (selectedFile) {
 				await uploadString(imageRef, selectedFile, 'data_url').then(async () => {
@@ -59,6 +61,7 @@ const Input = () => {
 					});
 				});
 			}
+			setOpenModal((prevState) => !prevState);
 			setPost('');
 			setSelectedFile(null);
 			setLoading(false);
@@ -67,6 +70,8 @@ const Input = () => {
 			console.log(err);
 		}
 	}
+
+	// Checking the user status
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
@@ -89,13 +94,13 @@ const Input = () => {
 					<div className=''>
 						<textarea
 							value={post}
-							onChange={onChange}
+							onChange={(e) => setPost(e.target.value)}
 							className='w-full rounded-md border-none focus:ring-0 text-lg placeholder:text-gray-700 dark:placeholder:text-white tracking-wide min-h-[50px] text-gray-700 dark:text-white resize-none dark:bg-black'
 							rows={2}
 							placeholder="What's happening?"></textarea>
 					</div>
 					{selectedFile && (
-						<div className='relative'>
+						<div className='relative overflow-hidden'>
 							<XIcon
 								onClick={() => setSelectedFile(null)}
 								className='h-7 text-white absolute top-2 left-2 cursor-pointer shadow-md'
@@ -103,7 +108,7 @@ const Input = () => {
 							<img
 								src={selectedFile}
 								alt='postImage'
-								className={`${loading && 'animate-pulse'} `}
+								className={`${loading && 'animate-pulse'} w-full h-[400px] object-cover`}
 							/>
 						</div>
 					)}

@@ -2,10 +2,13 @@ import { NewspaperIcon, UserIcon, UsersIcon } from '@heroicons/react/outline';
 import { onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { postModalState } from '../../atom/modalAtom';
 import { auth } from '../Firebase';
 
 const BottomNav = () => {
 	const [user, setUser] = useState({});
+	const [openModal, setOpenModal] = useRecoilState(postModalState);
 
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
@@ -40,7 +43,10 @@ const BottomNav = () => {
 						<UsersIcon className='w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' />
 					</Link>
 					{/* Add Post */}
-					<div title='New Post' className='flex items-center justify-center'>
+					<div
+						onClick={() => setOpenModal((prevState) => !prevState)}
+						title='New Post'
+						className='flex items-center justify-center'>
 						<button className='inline-flex items-center justify-center w-10 h-10 font-medium bg-blue-600 rounded-full hover:bg-blue-700 group focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800'>
 							<svg
 								className='w-6 h-6 text-white'

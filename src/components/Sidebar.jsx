@@ -1,23 +1,16 @@
 import { HomeIcon } from '@heroicons/react/solid';
-import {
-	BellIcon,
-	BookmarkIcon,
-	ClipboardIcon,
-	DotsCircleHorizontalIcon,
-	DotsHorizontalIcon,
-	HashtagIcon,
-	InboxIcon,
-	UserIcon,
-	UsersIcon,
-} from '@heroicons/react/outline';
+import { HashtagIcon, InboxIcon } from '@heroicons/react/outline';
 import SidebarMenuItem from './SidebarMenuItem';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { auth } from '../Firebase';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
+import { postModalState } from '../../atom/modalAtom';
+import { useRecoilState } from 'recoil';
 
 const Sidebar = () => {
 	const [userInfo, setUserInfo] = useState({});
+	const [openModal, setOpenModal] = useRecoilState(postModalState);
 	let navigate = useNavigate();
 
 	function signOut() {
@@ -28,11 +21,7 @@ const Sidebar = () => {
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
-				// console.log(user);
 				setUserInfo(user);
-			} else {
-				// User is signed out
-				// ...
 			}
 		});
 	}, [auth]);
@@ -60,19 +49,11 @@ const Sidebar = () => {
 					<NavLink to={'/users'}>
 						<SidebarMenuItem text={'Messages'} Icon={InboxIcon} />
 					</NavLink>
-					{/* <NavLink to={`/profile/${auth.currentUser.uid}`}>
-						<SidebarMenuItem text={'Profile'} Icon={UserIcon} />
-					</NavLink> */}
-					{/* <NavLink to={'/users'}>
-						<SidebarMenuItem text={'Users'} Icon={UsersIcon} />
-					</NavLink> */}
-					{/* <SidebarMenuItem text={'Notifications'} Icon={BellIcon} /> */}
-					{/* <SidebarMenuItem text={'Bookmark'} Icon={BookmarkIcon} /> */}
-					{/* <SidebarMenuItem text={'Lists'} Icon={ClipboardIcon} /> */}
-					{/* <SidebarMenuItem text={'More'} Icon={DotsCircleHorizontalIcon} /> */}
 				</div>
 				{/* Button */}
-				<button className='bg-blue-400 text-white rounded-full w-56 h-12 font-bold shadow-md hover:brightness-95 text-lg hidden xl:inline active:scale-95'>
+				<button
+					onClick={() => setOpenModal((prevState) => !prevState)}
+					className='bg-blue-400 text-white rounded-full w-56 h-12 font-bold shadow-md hover:brightness-95 text-lg hidden xl:inline active:scale-95'>
 					Tweet
 				</button>
 				{/* Mini Profile */}

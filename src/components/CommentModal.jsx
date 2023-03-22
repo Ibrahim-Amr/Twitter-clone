@@ -4,15 +4,7 @@ import Modal from 'react-modal';
 import { EmojiHappyIcon, PhotographIcon, XIcon } from '@heroicons/react/outline';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../Firebase';
-import {
-	addDoc,
-	arrayUnion,
-	collection,
-	doc,
-	onSnapshot,
-	serverTimestamp,
-	updateDoc,
-} from 'firebase/firestore';
+import { arrayUnion, doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 

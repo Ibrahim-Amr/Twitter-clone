@@ -16,6 +16,7 @@ import BottomNav from './components/BottomNav';
 import CommentModal from './components/CommentModal';
 import { RecoilRoot } from 'recoil';
 import Post from './pages/Post';
+import PostModal from './components/PostModal';
 
 const LayOut = () => {
 	return (
@@ -33,6 +34,8 @@ const LayOut = () => {
 				<BottomNav />
 				{/* Modal */}
 				<CommentModal />
+				{/* Post Modal */}
+				<PostModal />
 				<ScrollRestoration />
 			</main>
 		</>

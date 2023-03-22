@@ -8,6 +8,7 @@ import { db } from '../Firebase';
 
 const Home = () => {
 	const [posts, setPosts] = useState([]);
+	
 
 	useEffect(() => {
 		const q = query(collection(db, 'posts'), orderBy('timestamp', 'desc'));
