@@ -18,10 +18,13 @@ import { modalState, postIdState } from '../../atom/modalAtom';
 
 const Article = ({ post }) => {
 	const [likes, setLikes] = useState([]);
+	const [comments, setComments] = useState([]);
+	const [commented, setCommented] = useState(false);
 	const [hasLiked, setHasLiked] = useState(false);
 	const [openModal, setOpenModal] = useRecoilState(modalState);
 	const [postId, setPostId] = useRecoilState(postIdState);
 
+	// Fetch Likes
 	useEffect(() => {
 		const unsubscribe = onSnapshot(collection(db, 'posts', post.id, 'likes'), (snapshot) =>
 			setLikes(snapshot.docs)
@@ -29,6 +32,16 @@ const Article = ({ post }) => {
 		return unsubscribe;
 	}, [db]);
 
+	// Fetch Comments
+	useEffect(() => {
+		const unsubscribe = onSnapshot(collection(db, 'posts', post.id, 'comments'), (snapshot) => {
+			setComments(snapshot.docs);
+			console.log(comments.data());
+		});
+		return unsubscribe;
+	}, [db]);
+
+	// See if the logged user Liked the post
 	useEffect(() => {
 		const likeIndex = likes.findIndex((like) => like.id === auth?.currentUser?.uid);
 		if (likeIndex > -1) {
@@ -38,9 +51,20 @@ const Article = ({ post }) => {
 		}
 	}, [likes]);
 
+	// See if the logged user commented
+	useEffect(() => {
+		const commentId = comments.findIndex((comment) => comment.id === auth?.currentUser?.uid);
+		if (commentId > -1) {
+			setCommented(true);
+		} else {
+			setCommented(false);
+		}
+	}, [comments]);
+
 	async function deletePost() {
 		if (window.confirm('Are you sure you want to delete this post?')) {
-			await deleteDoc(doc(db, 'posts', post.id, 'likes', auth?.currentUser?.uid));
+			await deleteDoc(doc(db, 'posts', post.id, 'likes', auth.currentUser.uid));
+			await deleteDoc(doc(db, 'posts', post.id, 'comments', auth.currentUser.uid));
 			await deleteDoc(doc(db, 'posts', post.id));
 			if (post.data().image) {
 				await deleteObject(ref(storage, `posts/${post.id}`));
@@ -151,13 +175,20 @@ const Article = ({ post }) => {
 
 					{/* Icons */}
 					<div className='flex justify-between items-center text-gray-500 dark:text-white my-1'>
-						<ChatIcon
-							onClick={() => {
-								setOpenModal((prevState) => !prevState);
-								setPostId(post.id);
-							}}
-							className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100'
-						/>
+						<div className='flex items-center'>
+							<ChatIcon
+								onClick={() => {
+									setOpenModal((prevState) => !prevState);
+									setPostId(post.id);
+								}}
+								className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100'
+							/>
+							{comments.length > 0 && (
+								<span className={`${commented && 'text-blue-500'} text-sm`}>
+									{comments.length}
+								</span>
+							)}
+						</div>
 						<ShareIcon className='h-9 w-9 hoverEffect p-2 hover:text-green-500 hover:bg-green-100' />
 						<div className='flex items-center'>
 							{hasLiked ? (

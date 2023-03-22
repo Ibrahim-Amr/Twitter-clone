@@ -4,20 +4,37 @@ import Modal from 'react-modal';
 import { EmojiHappyIcon, PhotographIcon, XIcon } from '@heroicons/react/outline';
 import { useEffect, useState } from 'react';
 import { auth, db } from '../Firebase';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { addDoc, collection, doc, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 const CommentModal = () => {
 	const [openModal, setOpenModal] = useRecoilState(modalState);
 	const [postId] = useRecoilState(postIdState);
 	const [post, setPost] = useState({});
+	const [input, setInput] = useState('');
+	let navigate = useNavigate();
 
 	useEffect(() => {
 		const docRef = doc(db, 'posts', postId);
 		const unsubscribe = onSnapshot(docRef, (snapshot) => {
 			setPost(snapshot.data());
 		});
+		return unsubscribe;
 	}, [postId, db]);
 
+	async function sendComment() {
+		let docRef = doc(db, 'posts', postId, 'comments', auth?.currentUser?.uid);
+		await setDoc(docRef, {
+			id: auth.currentUser.uid,
+			comment: input,
+			name: auth?.currentUser?.displayName,
+			userImg: auth?.currentUser?.photoURL,
+			timestamp: serverTimestamp(),
+		});
+		setOpenModal(false);
+		setInput('');
+		// navigate(`post/${postId}`);
+	}
 	return (
 		<div className='text-black dark:text-white'>
 			{openModal && (
@@ -68,8 +85,8 @@ const CommentModal = () => {
 							<div className='w-full divide-y divide-gray-200 dark:divide-gray-50/20'>
 								<div className=''>
 									<textarea
-										// value={post}
-										// onChange={onChange}
+										value={input}
+										onChange={(e) => setInput(e.target.value)}
 										className='w-full rounded-md border-none focus:ring-0 text-lg placeholder:text-gray-700 dark:placeholder:text-white tracking-wide min-h-[50px] text-gray-700 dark:text-white resize-none dark:bg-black'
 										rows={2}
 										placeholder='Tweet your reply'></textarea>
@@ -85,6 +102,7 @@ const CommentModal = () => {
 									</div>
 									<button
 										// disabled={!post.trim()}
+										onClick={sendComment}
 										className='bg-blue-400 text-white px-4 py-1.5 rounded-full font-bold shadow-md hover:shadow-lg hover:brightness-95 active:scale-95 disabled:scale-100 disabled:opacity-50'>
 										Reply
 									</button>

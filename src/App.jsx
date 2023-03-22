@@ -15,6 +15,7 @@ import 'flowbite';
 import BottomNav from './components/BottomNav';
 import CommentModal from './components/CommentModal';
 import { RecoilRoot } from 'recoil';
+import Post from './pages/Post';
 
 const LayOut = () => {
 	return (
@@ -72,6 +73,14 @@ let route = createBrowserRouter([
 				element: (
 					<ProtectedRoute>
 						<Users />
+					</ProtectedRoute>
+				),
+			},
+			{
+				path: '/post/:id',
+				element: (
+					<ProtectedRoute>
+						<Post />
 					</ProtectedRoute>
 				),
 			},
