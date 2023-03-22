@@ -14,12 +14,13 @@ import { Link } from 'react-router-dom';
 import { auth, db, storage } from '../Firebase';
 import { motion } from 'framer-motion';
 import { useRecoilState } from 'recoil';
-import { modalState } from '../../atom/modalAtom';
+import { modalState, postIdState } from '../../atom/modalAtom';
 
 const Article = ({ post }) => {
 	const [likes, setLikes] = useState([]);
 	const [hasLiked, setHasLiked] = useState(false);
 	const [openModal, setOpenModal] = useRecoilState(modalState);
+	const [postId, setPostId] = useRecoilState(postIdState);
 
 	useEffect(() => {
 		const unsubscribe = onSnapshot(collection(db, 'posts', post.id, 'likes'), (snapshot) =>
@@ -151,7 +152,10 @@ const Article = ({ post }) => {
 					{/* Icons */}
 					<div className='flex justify-between items-center text-gray-500 dark:text-white my-1'>
 						<ChatIcon
-							onClick={() => setOpenModal((prevState) => !prevState)}
+							onClick={() => {
+								setOpenModal((prevState) => !prevState);
+								setPostId(post.id);
+							}}
 							className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100'
 						/>
 						<ShareIcon className='h-9 w-9 hoverEffect p-2 hover:text-green-500 hover:bg-green-100' />

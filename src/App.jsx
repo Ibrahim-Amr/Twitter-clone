@@ -13,7 +13,7 @@ import Users from './components/Users';
 import Chat from './components/Chat';
 import 'flowbite';
 import BottomNav from './components/BottomNav';
-import Modal from './components/Modal';
+import CommentModal from './components/CommentModal';
 import { RecoilRoot } from 'recoil';
 
 const LayOut = () => {
@@ -31,7 +31,7 @@ const LayOut = () => {
 				{/* Mobile nav */}
 				<BottomNav />
 				{/* Modal */}
-				<Modal />
+				<CommentModal />
 				<ScrollRestoration />
 			</main>
 		</>
