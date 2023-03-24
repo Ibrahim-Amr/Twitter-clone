@@ -5,7 +5,6 @@ import { postModalState } from '../../atom/modalAtom';
 
 const PostModal = () => {
 	const [openModal, setOpenModal] = useRecoilState(postModalState);
-	console.log(openModal);
 	return (
 		<div className='text-black dark:text-white'>
 			{openModal && (

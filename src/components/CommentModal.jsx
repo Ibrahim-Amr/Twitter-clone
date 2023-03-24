@@ -36,6 +36,7 @@ const CommentModal = () => {
 			const docRef = await updateDoc(ref, {
 				comments: arrayUnion({
 					id: generateUniqueId(),
+					autherId: auth?.currentUser?.uid,
 					comment: input,
 					name: auth?.currentUser?.displayName,
 					userImg: auth?.currentUser?.photoURL,
@@ -73,7 +74,11 @@ const CommentModal = () => {
 							<span className='w-0.5 h-full -z-10 absolute left-7 top-11 bg-gray-300'></span>
 							{/* Header */}
 							<img
-								src={post?.autherImg}
+								src={
+									post?.autherImg == null
+										? 'https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg'
+										: post?.autherImg
+								}
 								alt='userimg'
 								width={50}
 								className='h-11 w-11 rounded-full mr-4'
@@ -96,7 +101,11 @@ const CommentModal = () => {
 						{/* Logged User */}
 						<div className='flex  py-3 px-2 gap-x-3'>
 							<img
-								src={auth?.currentUser?.photoURL}
+								src={
+									auth?.currentUser?.photoURL == null
+										? 'https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg'
+										: auth?.currentUser?.photoURL
+								}
 								alt='user'
 								className='h-11 w-11 rounded-full cursor-pointer brightness-95'
 							/>

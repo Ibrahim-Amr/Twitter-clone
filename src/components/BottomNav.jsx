@@ -1,7 +1,7 @@
-import { NewspaperIcon, UserIcon, UsersIcon } from '@heroicons/react/outline';
+import { LogoutIcon, NewspaperIcon, UsersIcon } from '@heroicons/react/outline';
 import { onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { postModalState } from '../../atom/modalAtom';
 import { auth } from '../Firebase';
@@ -9,6 +9,7 @@ import { auth } from '../Firebase';
 const BottomNav = () => {
 	const [user, setUser] = useState({});
 	const [openModal, setOpenModal] = useRecoilState(postModalState);
+	let navigate = useNavigate();
 
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
@@ -17,6 +18,11 @@ const BottomNav = () => {
 			}
 		});
 	}, [user]);
+
+	function signOut() {
+		auth.signOut();
+		navigate('/login');
+	}
 
 	return (
 		<>
@@ -68,12 +74,12 @@ const BottomNav = () => {
 						<NewspaperIcon className='w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' />
 					</Link>
 					{/* Profile */}
-					<Link
-						to={`/profile/${user.uid}`}
-						title='Profile'
-						className='inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group'>
-						<UserIcon className='w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' />
-					</Link>
+					<div
+						title='Logout'
+						onClick={signOut}
+						className='inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group cursor-pointer'>
+						<LogoutIcon className='w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' />
+					</div>
 				</div>
 			</div>
 		</>

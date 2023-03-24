@@ -89,8 +89,12 @@ const Post = () => {
 						<div className='group relative'>
 							<Link to={`/`}>
 								<img
-									src={post.autherImg}
-									alt='userimg'
+									src={
+										post.autherImg == null
+											? 'https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg'
+											: post.autherImg
+									}
+									alt='user'
 									width={50}
 									className='h-11 w-11 rounded-full mr-4 mt-3'
 								/>

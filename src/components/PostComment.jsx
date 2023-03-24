@@ -34,7 +34,11 @@ const PostComment = ({ comment, auther, firebaseID }) => {
 					<div className='group relative'>
 						<Link to={`/`}>
 							<img
-								src={comment?.userImg}
+								src={
+									comment?.userImg == null
+										? 'https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg'
+										: comment?.userImg
+								}
 								alt='userimg'
 								width={50}
 								className='h-11 w-11 rounded-full mr-4 mt-3'
@@ -64,7 +68,7 @@ const PostComment = ({ comment, auther, firebaseID }) => {
 						</p>
 						{/* Icons */}
 						<div className='flex justify-between items-center text-gray-500 dark:text-white my-1'>
-							{auther === auth?.currentUser?.uid && (
+							{comment?.autherId === auth?.currentUser?.uid && (
 								<TrashIcon
 									onClick={() => {
 										deleteComment(comment);

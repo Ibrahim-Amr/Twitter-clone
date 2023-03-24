@@ -1,4 +1,4 @@
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+import { createHashRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Widgets from './components/Widgets';
 import Home from './pages/Home';
@@ -17,6 +17,8 @@ import CommentModal from './components/CommentModal';
 import { RecoilRoot } from 'recoil';
 import Post from './pages/Post';
 import PostModal from './components/PostModal';
+import { AnimatePresence } from 'framer-motion';
+import SignUp from './pages/SignUp';
 
 const LayOut = () => {
 	return (
@@ -25,9 +27,11 @@ const LayOut = () => {
 				{/* Sidebar */}
 				<Sidebar />
 				{/* Outlet Middle Section */}
-				<section className='outlet-container'>
-					<Outlet />
-				</section>
+				<AnimatePresence>
+					<section className='outlet-container'>
+						<Outlet />
+					</section>
+				</AnimatePresence>
 				{/* Widgets  */}
 				<Widgets />
 				{/* Mobile nav */}
@@ -42,7 +46,7 @@ const LayOut = () => {
 	);
 };
 
-let route = createBrowserRouter([
+let route = createHashRouter([
 	{
 		path: '/',
 		element: <LayOut />,
@@ -56,18 +60,18 @@ let route = createBrowserRouter([
 				),
 			},
 			{
-				path: '/explore',
-				element: (
-					<ProtectedRoute>
-						<NewsPage />
-					</ProtectedRoute>
-				),
-			},
-			{
 				path: '/profile/:id',
 				element: (
 					<ProtectedRoute>
 						<Profile />
+					</ProtectedRoute>
+				),
+			},
+			{
+				path: '/explore',
+				element: (
+					<ProtectedRoute>
+						<NewsPage />
 					</ProtectedRoute>
 				),
 			},
@@ -96,6 +100,10 @@ let route = createBrowserRouter([
 				),
 			},
 		],
+	},
+	{
+		path: '/sign-up',
+		element: <SignUp />,
 	},
 	{
 		path: '/login',

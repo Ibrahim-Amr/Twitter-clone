@@ -40,7 +40,11 @@ const Users = () => {
 								<div className='flex-shrink-0'>
 									<img
 										className='w-8 h-8 rounded-full bg-gray-600 dark:bg-gray-200 overflow-hidden'
-										src={user.data().avatar}
+										src={
+											user.data().avatar == null
+												? 'https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg'
+												: user.data().avatar
+										}
 										alt={user.data().name}
 									/>
 								</div>

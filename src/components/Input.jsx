@@ -61,7 +61,7 @@ const Input = () => {
 					});
 				});
 			}
-			setOpenModal((prevState) => !prevState);
+			setOpenModal(false);
 			setPost('');
 			setSelectedFile(null);
 			setLoading(false);
@@ -86,8 +86,12 @@ const Input = () => {
 		<>
 			<div className='flex border-b border-gray-200 dark:border-gray-50/20 p-3 gap-x-3'>
 				<img
-					src={userInfo.photoURL}
-					alt='user image'
+					src={
+						userInfo.photoURL == null
+							? 'https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg'
+							: userInfo.photoURL
+					}
+					alt='user'
 					className='h-11 w-11 rounded-full cursor-pointer brightness-95'
 				/>
 				<div className='w-full divide-y divide-gray-200 dark:divide-gray-50/20'>

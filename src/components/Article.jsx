@@ -78,8 +78,12 @@ const Article = ({ post }) => {
 				<div className='group relative'>
 					<Link to={`profile/${post.data().auther}`}>
 						<img
-							src={post.data().autherImg}
-							alt='userimg'
+							src={
+								post.data().autherImg == null
+									? 'https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg'
+									: post.data().autherImg
+							}
+							alt='post'
 							width={50}
 							className='h-11 w-11 rounded-full mr-4 mt-3'
 						/>
@@ -119,44 +123,43 @@ const Article = ({ post }) => {
 				</div>
 				{/* Right Side */}
 				<div className='w-full '>
-					{/* Header */}
-					<div className='flex justify-between items-center '>
-						{/* post user info */}
-						<div className='flex justify-start items-center gap-x-1 whitespace-nowrap'>
-							<Link to={`profile/${post.data().auther}`}>
-								<h4 className='font-bold text-[15px] sm:text-[16px] hover:underline capitalize'>
-									{post.data().autherName}
-								</h4>
-							</Link>
+					<div onClick={navigateToPost}>
+						{/* Header */}
+						<div className='flex justify-between items-center '>
+							{/* post user info */}
+							<div className='flex justify-start items-center gap-x-1 whitespace-nowrap'>
+								<Link to={`profile/${post.data().auther}`}>
+									<h4 className='font-bold text-[15px] sm:text-[16px] hover:underline capitalize'>
+										{post.data().autherName}
+									</h4>
+								</Link>
 
-							<span className='text-sm sm:text-[15px] text-gray-700 dark:text-gray-300  '>
-								@{post.data().autherName.replace(/\s/g, '').toLowerCase()}
-							</span>
-							{' · '}
-							<span className='text-sm sm:text-[15px] hover:underline text-gray-700 dark:text-gray-300'>
-								{/* DATE */}
-
-								{post?.data()?.timestamp.seconds}
-							</span>
+								<span className='text-sm sm:text-[15px] text-gray-700 dark:text-gray-300  '>
+									@{post.data().autherName.replace(/\s/g, '').toLowerCase()}
+								</span>
+								{' · '}
+								<span className='text-sm sm:text-[15px] hover:underline text-gray-700 dark:text-gray-300'>
+									{/* DATE */}
+									{/* {post?.data()?.timestamp.seconds} */}
+								</span>
+							</div>
+							{/* dot icon */}
+							<DotsHorizontalIcon className='hoverEffect hover:bg-sky-100 hover:text-sky-500 h-10 w-10 p-2' />
 						</div>
-						{/* dot icon */}
-						<DotsHorizontalIcon className='hoverEffect hover:bg-sky-100 hover:text-sky-500 h-10 w-10 p-2' />
+						{/* Post text */}
+						<p className='text-gray-800 dark:text-white text-[15px] sm:text-[16px] font-semibold mb-2 '>
+							{post.data().text}
+						</p>
+						{/* post Image */}
+						{post.data().image && (
+							<img
+								src={post.data().image}
+								alt='post image'
+								loading='lazy'
+								className='rounded-2xl mr-2 w-full max-h-[500px] object-cover'
+							/>
+						)}
 					</div>
-					{/* Post text */}
-					<p className='text-gray-800 dark:text-white text-[15px] sm:text-[16px] font-semibold mb-2 mt-[-10px]'>
-						{post.data().text}
-					</p>
-					{/* post Image */}
-					{post.data().image && (
-						<img
-							src={post.data().image}
-							onClick={navigateToPost}
-							alt='post image'
-							loading='lazy'
-							className='rounded-2xl mr-2 w-full max-h-[500px] object-cover'
-						/>
-					)}
-
 					{/* Icons */}
 					<div className='flex justify-between items-center text-gray-500 dark:text-white my-1'>
 						<div className='flex items-center'>
