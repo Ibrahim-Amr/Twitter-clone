@@ -19,6 +19,7 @@ const Sidebar = () => {
 		navigate('/login');
 	}
 
+	// Theme function
 	useEffect(() => {
 		let localTheme = localStorage.getItem('theme');
 		if (localTheme === 'dark') {
