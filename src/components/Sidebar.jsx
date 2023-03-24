@@ -76,7 +76,7 @@ const Sidebar = () => {
 							className='w-10 h-w-10 rounded-full '
 							src={
 								userInfo.photoURL == null
-									? 'https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg'
+									? 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png'
 									: userInfo.photoURL
 							}
 							alt='User'

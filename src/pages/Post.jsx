@@ -1,15 +1,22 @@
-import { ChartBarIcon, ChatIcon, HeartIcon, ShareIcon, TrashIcon } from '@heroicons/react/outline';
+import {
+	ChartBarIcon,
+	ChatIcon,
+	HeartIcon,
+	HomeIcon,
+	ShareIcon,
+	TrashIcon,
+} from '@heroicons/react/outline';
 import { HeartIcon as HeartSolid } from '@heroicons/react/solid';
 import { arrayRemove, arrayUnion, deleteDoc, doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { modalState, postIdState } from '../../atom/modalAtom';
 import PostComment from '../components/PostComment';
 import Spinner from '../components/Spinner';
-import { auth, db } from '../Firebase';
+import { auth, db, storage } from '../Firebase';
 
 const Post = () => {
 	const [isLoading, setIsloading] = useState(true);
@@ -19,7 +26,9 @@ const Post = () => {
 	const [postId, setPostId] = useRecoilState(postIdState);
 	const [post, setPost] = useState({});
 	let { id } = useParams();
+	let navigate = useNavigate();
 
+	// Get post from firebase
 	useEffect(() => {
 		let docRef = doc(db, 'posts', id);
 		const unsub = onSnapshot(docRef, (doc) => {
@@ -30,8 +39,9 @@ const Post = () => {
 		return unsub;
 	}, []);
 
+	// Check if the logged user liked the post
 	useEffect(() => {
-		if (post.Likes !== undefined) {
+		if (post?.Likes !== undefined) {
 			const likeIndex = post.Likes.findIndex((like) => like.id === auth?.currentUser?.uid);
 			if (likeIndex > -1) {
 				setHasLiked(true);
@@ -44,11 +54,12 @@ const Post = () => {
 	// Delete post Function
 	async function deletePost() {
 		if (window.confirm('Are you sure you want to delete this post?')) {
-			let docRef = doc(db, 'posts', post.id);
+			let docRef = doc(db, 'posts', firebaseID);
 			await deleteDoc(docRef);
-			if (post.data().image) {
-				await deleteObject(ref(storage, `posts/${post.id}`));
+			if (post?.image) {
+				await deleteObject(ref(storage, `posts/${firebaseID}`));
 			}
+			// navigate('/');
 		}
 	}
 
@@ -73,6 +84,28 @@ const Post = () => {
 	if (isLoading) {
 		return <Spinner />;
 	}
+	if (!post) {
+		return (
+			<>
+				<div>
+					<div className='flex items-center p-3 border-b border-gray-50/20 w-full sticky top-0 bg-white  dark:bg-black z-50 shadow mb-3'>
+						<span className='text-lg sm:text-xl font-bold cursor-pointer text-gray-600 dark:text-white'>
+							Post
+						</span>
+					</div>
+					<div className='text-black dark:text-white text-center flex flex-col justify-center items-center'>
+						<p className='mb-5 text-3xl font-semibold'>No Post Found</p>
+						<Link
+							to={'/'}
+							className='hoverEffect bg-blue-500 hover:bg-blue-600 dark:hover:bg-blue-600 flex justify-center xl:justify-start items-center text-white dark:text-white text-lg gap-x-3 w-fit px-5 '>
+							<HomeIcon className='h-7' />
+							<span className={`hidden xl:inline`}>Home</span>
+						</Link>
+					</div>
+				</div>
+			</>
+		);
+	}
 	return (
 		<>
 			<div className='mb-3'>
@@ -90,9 +123,9 @@ const Post = () => {
 							<Link to={`/`}>
 								<img
 									src={
-										post.autherImg == null
-											? 'https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg'
-											: post.autherImg
+										post?.autherImg == null
+											? 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png'
+											: post?.autherImg
 									}
 									alt='user'
 									width={50}
@@ -163,16 +196,16 @@ const Post = () => {
 											className='h-9 w-9 hoverEffect p-2 hover:text-pink-500 hover:bg-pink-100'
 										/>
 									)}
-									{post.Likes.length > 0 && (
+									{post?.Likes.length > 0 && (
 										<span className={`${hasLiked && 'text-red-600'} text-sm`}>
-											{post.Likes.length}
+											{post?.Likes.length}
 										</span>
 									)}
 								</div>
 								<ChartBarIcon className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100' />
 								{post?.auther === auth?.currentUser?.uid && (
 									<TrashIcon
-										// onClick={deletePost}
+										onClick={deletePost}
 										className='h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100'
 									/>
 								)}
@@ -181,9 +214,9 @@ const Post = () => {
 					</div>
 				</article>
 				<AnimatePresence>
-					{post.comments.map((comment) => (
+					{post?.comments.map((comment) => (
 						<PostComment
-							key={comment.id}
+							key={comment?.id}
 							comment={comment}
 							auther={post?.auther}
 							firebaseID={firebaseID}

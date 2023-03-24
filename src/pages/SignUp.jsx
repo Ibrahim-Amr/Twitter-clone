@@ -33,6 +33,8 @@ const SignUp = () => {
 			const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 			updateProfile(auth.currentUser, {
 				displayName: name,
+				photoURL:
+					'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
 			});
 			const user = userCredential.user;
 
@@ -40,8 +42,7 @@ const SignUp = () => {
 			delete formDataCopy.password;
 			formDataCopy.timestamp = serverTimestamp();
 			formDataCopy.id = user.uid;
-			formDataCopy.avatar =
-				'https://www.baumandblume.com/wp-content/uploads/2017/02/no-image-icon-md.png';
+			formDataCopy.avatar = 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png';
 			await setDoc(doc(db, 'users', user.uid), formDataCopy);
 			navigate('/');
 			toast.success(`Welcome ${user.displayName}`);

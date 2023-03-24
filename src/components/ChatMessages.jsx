@@ -13,7 +13,14 @@ const ChatMessages = ({ message }) => {
 					className='chat chat-end'>
 					<div className='chat-image avatar'>
 						<div className='w-10 rounded-full'>
-							<img src={message.avatar} />
+							<img
+								src={
+									message.avatar == null
+										? 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png'
+										: message.avatar
+								}
+								alt='V'
+							/>
 						</div>
 					</div>
 					<div className='chat-header dark:text-white'>{message.name}</div>
@@ -28,7 +35,7 @@ const ChatMessages = ({ message }) => {
 					className='chat chat-start'>
 					<div className='chat-image avatar'>
 						<div className='w-10 rounded-full'>
-							<img src={message.avatar} />
+							<img src={message.avatar} alt='V' />
 						</div>
 					</div>
 					<div className='chat-header dark:text-white'>{message.name}</div>

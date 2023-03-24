@@ -80,7 +80,7 @@ const Article = ({ post }) => {
 						<img
 							src={
 								post.data().autherImg == null
-									? 'https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg'
+									? 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png'
 									: post.data().autherImg
 							}
 							alt='post'
@@ -95,8 +95,12 @@ const Article = ({ post }) => {
 									<span>
 										<img
 											className='w-10 h-10 rounded-full'
-											src={post.data().autherImg}
-											alt='Jese Leos'
+											src={
+												post.data().autherImg == null
+													? 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png'
+													: post.data().autherImg
+											}
+											alt={post.data().autherName}
 										/>
 									</span>
 									{post.data().auther !== auth.currentUser.uid && (
