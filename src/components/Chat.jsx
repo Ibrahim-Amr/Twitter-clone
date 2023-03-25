@@ -47,13 +47,13 @@ const Chat = () => {
 
 	return (
 		<>
-			<div className='w-full h-screenoverflow-hidden'>
+			<div className='w-full h-fit overflow-hidden'>
 				<div className='flex items-center p-3 border-b border-gray-50/20 w-full sticky top-0 bg-white  dark:bg-black z-50 shadow'>
 					<span className='text-lg sm:text-xl font-bold cursor-pointer text-gray-600 dark:text-white'>
 						Chat
 					</span>
 				</div>
-				<div className='w-full p-6 overflow-y-auto h-[calc(100vh-120px)]'>
+				<div className='w-full p-6 overflow-y-auto  h-[calc(100vh-120px-64px)] sm:h-[calc(100vh-120px)]'>
 					<AnimatePresence>
 						{messages &&
 							messages.map((message, index) => (

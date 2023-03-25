@@ -21,3 +21,7 @@ html {
 .active {
 	font-weight: bold;
 }
+
+.ReactModal__Overlay {
+	z-index: 100;
+}
