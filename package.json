@@ -1,4 +1,5 @@
 {
+	"homepage": "https://ibrahim-amr.github.io/twitter-v2/",
 	"name": "twitter",
 	"private": true,
 	"version": "0.0.0",
@@ -15,15 +16,12 @@
 		"firebase": "^9.17.2",
 		"flowbite": "^1.6.4",
 		"framer-motion": "^10.6.1",
-		"moment": "^2.29.4",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-modal": "^3.16.1",
-		"react-moment": "^1.1.3",
 		"react-router-dom": "^6.9.0",
 		"react-toastify": "^9.1.1",
-		"recoil": "^0.7.7",
-		"uuidv4": "^6.2.13"
+		"recoil": "^0.7.7"
 	},
 	"devDependencies": {
 		"@tailwindcss/forms": "^0.5.3",

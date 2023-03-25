@@ -28,7 +28,7 @@ const LayOut = () => {
 				<Sidebar />
 				{/* Outlet Middle Section */}
 				<AnimatePresence>
-					<section className='outlet-container'>
+					<section className='outlet-container pb-16 sm:pb-0'>
 						<Outlet />
 					</section>
 				</AnimatePresence>

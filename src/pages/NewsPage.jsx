@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SparklesIcon } from '@heroicons/react/outline';
 import { DotsHorizontalIcon } from '@heroicons/react/outline';
-// import Moment from 'react-moment';
+
 const NewsPage = () => {
 	const [explore, setNews] = useState([]);
 	// const [limit, setLimit] = useState('3');
@@ -33,7 +33,7 @@ const NewsPage = () => {
 			</div>
 			{explore.slice(0, 20).map((article, id) => (
 				<Link key={id + 1} to={article.url} target='_blank'>
-					<article className='flex justify-between items-start px-3 py-3 cursor-pointer border-b border-b-gray-200 dark:border-blue-50/20'>
+					<article className='flex justify-between items-start px-3 py-3 cursor-pointer border-b border-b-gray-200 dark:border-blue-50/20 overflow-hidden'>
 						{/* user image */}
 						<img
 							src={article.urlToImage}
@@ -42,7 +42,7 @@ const NewsPage = () => {
 							className='h-11 w-11 rounded-full mr-4 mt-3'
 						/>
 						{/* Right Side */}
-						<div className='w-full '>
+						<div className='w-full overflow-hidden'>
 							{/* Header */}
 							<div className='flex justify-between items-center '>
 								{/* post user info */}
@@ -55,8 +55,7 @@ const NewsPage = () => {
 									</span>
 									{' · '}
 									<span className='text-sm sm:text-[15px] hover:underline text-gray-700 dark:text-gray-300'>
-										{/* <Moment fromNow>1976-04-19T12:59-0500</Moment> */}
-										{article.publishedAt}
+										{/* {article?.publishedAt} */}
 									</span>
 								</div>
 								{/* dot icon */}

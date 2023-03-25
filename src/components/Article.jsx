@@ -89,7 +89,7 @@ const Article = ({ post }) => {
 						/>
 					</Link>
 					<div>
-						<div className='group-hover:inline-block hidden absolute top-0 left-full  z-10  w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-gray-100 border-gray-200 rounded-lg shadow-sm  dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600 cursor-default'>
+						<div className='group-hover:inline-block hidden absolute top-0 left-full w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-gray-100 border-gray-200 rounded-lg shadow-sm  dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600 cursor-default'>
 							<div className='p-3'>
 								<div className='flex items-center justify-between mb-2'>
 									<span>

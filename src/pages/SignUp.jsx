@@ -48,8 +48,8 @@ const SignUp = () => {
 			toast.success(`Welcome ${user.displayName}`);
 		} catch (err) {
 			console.log(err.message);
-			// toast.error('Please enter a valid email and password');
-			toast.error(err.message);
+			toast.error('Please enter a valid email and password');
+			// toast.error(err.message);
 		}
 	}
 
