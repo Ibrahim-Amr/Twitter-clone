@@ -71,7 +71,7 @@ const CommentModal = () => {
 							</div>
 						</div>
 						{/* Post Info */}
-						<div className='relative before:absolute before:-bottom-10 before:left-7 before:bg-gray-200 before:w-0.5 before:h-full'>
+						<div className='relative before:absolute before:-bottom-10 before:left-7 before:bg-gray-200 before:w-0.5 before:h-full py-2'>
 							<div className='px-2 flex justify-start items-center relative '>
 								{/* Header */}
 								<img
@@ -95,7 +95,7 @@ const CommentModal = () => {
 									{post?.timestamp?.seconds}
 								</span>
 							</div>
-							<div className='px-10 ml-10'>
+							<div className='px-2 ml-14'>
 								<p className='text-gray-700 dark:text-white text-[15px] sm:text-[17px] font-semibold mb-2'>
 									{post?.text}
 								</p>
@@ -110,7 +110,7 @@ const CommentModal = () => {
 							</div>
 						</div>
 						{/* Logged User */}
-						<div className='flex  py-3 px-2 gap-x-3'>
+						<div className='flex py-3 px-2 gap-x-3'>
 							<img
 								src={
 									auth?.currentUser?.photoURL == null
@@ -125,19 +125,12 @@ const CommentModal = () => {
 									<textarea
 										value={input}
 										onChange={(e) => setInput(e.target.value)}
-										className='w-full rounded-md border-none focus:ring-0 text-lg placeholder:text-gray-700 dark:placeholder:text-white tracking-wide min-h-[50px] text-gray-700 dark:text-white resize-none dark:bg-black'
+										className='w-full rounded-md  focus:ring-0 text-lg placeholder:text-gray-700 dark:placeholder:text-white tracking-wide min-h-[50px] text-gray-700 dark:text-white resize-none dark:bg-black'
 										rows={2}
 										placeholder='Reply'></textarea>
 								</div>
 								{/* File */}
 								<div className='flex justify-end items-center pt-2.5'>
-									{/* <div className='flex'>
-										<label htmlFor='file'>
-											<PhotographIcon className='hoverEffect text-sky-500 hover:bg-sky-100 h-10 w-10 p-2' />
-										</label>
-										<input type='file' id='file' className='hidden' />
-										<EmojiHappyIcon className='hoverEffect text-sky-500 hover:bg-sky-100 h-10 w-10 p-2' />
-									</div> */}
 									<button
 										disabled={!input.trim()}
 										onClick={sendComment}

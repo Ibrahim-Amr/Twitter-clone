@@ -52,7 +52,7 @@ const BottomNav = () => {
 					<div
 						onClick={() => setOpenModal((prevState) => !prevState)}
 						title='New Post'
-						className='flex items-center justify-center'>
+						className='flex items-center justify-center active:scale-95 duration-150 ease-in-out'>
 						<button className='inline-flex items-center justify-center w-10 h-10 font-medium bg-blue-600 rounded-full hover:bg-blue-700 group focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800'>
 							<svg
 								className='w-6 h-6 text-white'

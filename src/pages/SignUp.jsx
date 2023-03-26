@@ -40,8 +40,8 @@ const SignUp = () => {
 
 			const formDataCopy = { ...formData };
 			delete formDataCopy.password;
-			formDataCopy.timestamp = serverTimestamp();
 			formDataCopy.id = user.uid;
+			formDataCopy.creationTime = user.metadata.creationTime;
 			formDataCopy.avatar = 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png';
 			await setDoc(doc(db, 'users', user.uid), formDataCopy);
 			navigate('/');

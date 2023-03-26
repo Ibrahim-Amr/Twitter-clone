@@ -21,7 +21,7 @@ const OAuth = () => {
 					name: user.displayName,
 					email: user.email,
 					avatar: user.photoURL,
-					timestamp: serverTimestamp(),
+					creationTime: user.metadata.creationTime,
 				});
 			}
 			navigate('/');

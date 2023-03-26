@@ -1,11 +1,4 @@
-import {
-	ChartBarIcon,
-	ChatIcon,
-	DotsHorizontalIcon,
-	HeartIcon,
-	ShareIcon,
-	TrashIcon,
-} from '@heroicons/react/outline';
+import { ChartBarIcon, HeartIcon, TrashIcon } from '@heroicons/react/outline';
 import { HeartIcon as HeartSolid } from '@heroicons/react/solid';
 import { arrayRemove, arrayUnion, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
@@ -72,113 +65,86 @@ const Article = ({ post }) => {
 				animate={{ opacity: 1 }}
 				exit={{ opacity: 0 }}
 				transition={{ duration: 0.5 }}
-				className='flex justify-between items-start px-3 py-1 cursor-pointer border-b
-				border-b-gray-200 dark:border-blue-50/20 relative'>
-				{/* user image */}
-				<div className='group relative'>
-					<Link to={`profile/${post.data().auther}`}>
-						<img
-							src={
-								post.data().autherImg == null
-									? 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png'
-									: post.data().autherImg
-							}
-							alt='post'
-							width={50}
-							className='h-11 w-11 rounded-full mr-4 mt-3'
-						/>
-					</Link>
-					<div>
-						<div className='group-hover:inline-block hidden absolute top-0 left-full w-64 text-sm font-light text-gray-500 transition-opacity duration-300 bg-gray-100 border-gray-200 rounded-lg shadow-sm  dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600 cursor-default'>
-							<div className='p-3'>
-								<div className='flex items-center justify-between mb-2'>
-									<span>
-										<img
-											className='w-10 h-10 rounded-full'
-											src={
-												post.data().autherImg == null
-													? 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png'
-													: post.data().autherImg
-											}
-											alt={post.data().autherName}
-										/>
-									</span>
-									{post.data().auther !== auth.currentUser.uid && (
-										<div>
-											<Link
-												to={`/chat/${post.data().auther}`}
-												type='button'
-												className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xs px-3 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'>
-												Message
-											</Link>
-										</div>
-									)}
-								</div>
-								<p className='text-base font-semibold leading-none text-gray-900 dark:text-white'>
+				className='border-b border-gray-200 dark:border-gray-50/20'>
+				<div className='flex flex-shrink-0 p-4 pb-0'>
+					<div className='flex-shrink-0 group block'>
+						<div className='flex items-center'>
+							<Link to={`/profile/${post.data().auther}`}>
+								<img
+									className='inline-block h-10 w-10 rounded-full'
+									src={
+										post.data().autherImg == null
+											? 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png'
+											: post.data().autherImg
+									}
+									alt='avatar'
+								/>
+							</Link>
+							<div className='ml-3'>
+								<Link
+									to={`/profile/${post.data().auther}`}
+									className='text-base leading-6 font-semibold text-black dark:text-white hover:underline'>
 									{post.data().autherName}
-									{' · '}
-									<span className='text-sm text-gray-700'>
-										@{post.data().autherName.replace(/\s/g, '').toLowerCase()}
-									</span>
-								</p>
+								</Link>
+								<span className='text-sm leading-5 font-medium text-gray-600 dark:text-gray-300/70 ml-1'>
+									@{post.data().autherName.replace(/\s/g, '').toLowerCase()} . 16 April
+								</span>
 							</div>
 						</div>
 					</div>
 				</div>
-				{/* Right Side */}
-				<div className='w-full '>
-					<div onClick={navigateToPost}>
-						{/* Header */}
-						<div className='flex justify-between items-center '>
-							{/* post user info */}
-							<div className='flex justify-start items-center gap-x-1 whitespace-nowrap'>
-								<Link to={`profile/${post.data().auther}`}>
-									<h4 className='font-bold text-[15px] sm:text-[16px] hover:underline capitalize'>
-										{post.data().autherName}
-									</h4>
-								</Link>
 
-								<span className='text-sm sm:text-[15px] text-gray-700 dark:text-gray-300  '>
-									@{post.data().autherName.replace(/\s/g, '').toLowerCase()}
-								</span>
-								{' · '}
-								<span className='text-sm sm:text-[15px] hover:underline text-gray-700 dark:text-gray-300'>
-									{/* DATE */}
-									{/* {post?.data()?.timestamp.seconds} */}
-								</span>
-							</div>
-							{/* dot icon */}
-							<DotsHorizontalIcon className='hoverEffect hover:bg-sky-100 hover:text-sky-500 h-10 w-10 p-2' />
-						</div>
-						{/* Post text */}
-						<p className='text-gray-800 dark:text-white text-[15px] sm:text-[16px] font-semibold mb-2 '>
+				<div className='pl-16 pr-5'>
+					{/* Post Data */}
+					<div onClick={navigateToPost} className='cursor-pointer'>
+						<p className='text-base width-auto font-medium text-black dark:text-white flex-shrink ml-1'>
 							{post.data().text}
 						</p>
-						{/* post Image */}
 						{post.data().image && (
-							<img
-								src={post.data().image}
-								alt='post image'
-								loading='lazy'
-								className='rounded-2xl mr-2 w-full max-h-[500px] object-cover'
-							/>
+							<div className='md:flex-shrink pt-3'>
+								<div className='rounded-lg w-full  overflow-hidden'>
+									<img
+										className='w-full h-full object-cover max-h-[500px]'
+										src={post.data().image}
+										alt='post image'
+										loading='lazy'
+									/>
+								</div>
+							</div>
 						)}
 					</div>
 					{/* Icons */}
-					<div className='flex justify-between items-center text-gray-500 dark:text-white my-1'>
+					<div className='flex justify-between items-center text-gray-500 dark:text-white py-3'>
 						<div className='flex items-center'>
-							<ChatIcon
+							<div
 								onClick={() => {
 									setOpenModal((prevState) => !prevState);
 									setPostId(post.id);
-								}}
-								className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100'
-							/>
+								}}>
+								<svg
+									viewBox='0 0 24 24'
+									fill='currentColor'
+									className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100'>
+									<g>
+										<path d='M14.046 2.242l-4.148-.01h-.002c-4.374 0-7.8 3.427-7.8 7.802 0 4.098 3.186 7.206 7.465 7.37v3.828c0 .108.044.286.12.403.142.225.384.347.632.347.138 0 .277-.038.402-.118.264-.168 6.473-4.14 8.088-5.506 1.902-1.61 3.04-3.97 3.043-6.312v-.017c-.006-4.367-3.43-7.787-7.8-7.788zm3.787 12.972c-1.134.96-4.862 3.405-6.772 4.643V16.67c0-.414-.335-.75-.75-.75h-.396c-3.66 0-6.318-2.476-6.318-5.886 0-3.534 2.768-6.302 6.3-6.302l4.147.01h.002c3.532 0 6.3 2.766 6.302 6.296-.003 1.91-.942 3.844-2.514 5.176z'></path>
+									</g>
+								</svg>
+							</div>
 							{post?.data()?.comments?.length > 0 && (
-								<span className='text-sm'>{post?.data()?.comments?.length}</span>
+								<span>{post?.data()?.comments?.length}</span>
 							)}
 						</div>
-						<ShareIcon className='h-9 w-9 hoverEffect p-2 hover:text-green-500 hover:bg-green-100' />
+						<div>
+							<svg
+								viewBox='0 0 24 24'
+								fill='currentColor'
+								className='h-9 w-9 hoverEffect p-2 hover:text-green-500 hover:bg-green-100'>
+								<g>
+									<path d='M23.77 15.67c-.292-.293-.767-.293-1.06 0l-2.22 2.22V7.65c0-2.068-1.683-3.75-3.75-3.75h-5.85c-.414 0-.75.336-.75.75s.336.75.75.75h5.85c1.24 0 2.25 1.01 2.25 2.25v10.24l-2.22-2.22c-.293-.293-.768-.293-1.06 0s-.294.768 0 1.06l3.5 3.5c.145.147.337.22.53.22s.383-.072.53-.22l3.5-3.5c.294-.292.294-.767 0-1.06zm-10.66 3.28H7.26c-1.24 0-2.25-1.01-2.25-2.25V6.46l2.22 2.22c.148.147.34.22.532.22s.384-.073.53-.22c.293-.293.293-.768 0-1.06l-3.5-3.5c-.293-.294-.768-.294-1.06 0l-3.5 3.5c-.294.292-.294.767 0 1.06s.767.293 1.06 0l2.22-2.22V16.7c0 2.068 1.683 3.75 3.75 3.75h5.85c.414 0 .75-.336.75-.75s-.337-.75-.75-.75z'></path>
+								</g>
+							</svg>
+						</div>
+
 						<div className='flex items-center'>
 							{hasLiked ? (
 								<HeartSolid
@@ -192,12 +158,11 @@ const Article = ({ post }) => {
 								/>
 							)}
 							{post?.data()?.Likes.length > 0 && (
-								<span className={`${hasLiked && 'text-red-600'} text-sm`}>
+								<span className={`${hasLiked && 'text-red-600'}`}>
 									{post?.data()?.Likes.length}
 								</span>
 							)}
 						</div>
-
 						<ChartBarIcon className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100' />
 						{post?.data()?.auther === auth?.currentUser?.uid && (
 							<TrashIcon

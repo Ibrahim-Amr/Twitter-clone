@@ -22,7 +22,7 @@ const ChatInput = ({ scroll }) => {
 		// Creating the conversation id between two users
 		const combinedUsers = auth.currentUser.uid + id;
 		let combinedId = combinedUsers.split('').sort().join('');
-		
+
 		try {
 			const ref = doc(db, 'chat', combinedId);
 			const docRef = await updateDoc(ref, {

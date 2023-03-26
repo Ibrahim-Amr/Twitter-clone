@@ -17,7 +17,7 @@ const Home = () => {
 	}, []);
 
 	return (
-		<div className='text-black dark:text-white pb-3 '>
+		<div className='text-black dark:text-white pb-3'>
 			{/* Header Component */}
 			<HomeHeader />
 			{/* Input Component */}

@@ -37,7 +37,7 @@ const Users = () => {
 					{users.map((user) => (
 						<li key={user.data().name} className='py-3 sm:py-4'>
 							<div className='flex items-center space-x-3'>
-								<div className='flex-shrink-0'>
+								<Link to={`/profile/${user?.data()?.id}`} className='flex-shrink-0'>
 									<img
 										className='w-8 h-8 rounded-full bg-gray-600 dark:bg-gray-200 overflow-hidden'
 										src={
@@ -47,11 +47,13 @@ const Users = () => {
 										}
 										alt={user.data().name}
 									/>
-								</div>
+								</Link>
 								<div className='flex-1 justify-start min-w-0'>
-									<h2 className='text-base font-semibold text-gray-900 truncate dark:text-white'>
-										{user.data().name}
-									</h2>
+									<Link to={`/profile/${user?.data()?.id}`}>
+										<h2 className='text-base font-semibold text-gray-900 truncate dark:text-white hover:underline duration-150 ease-in-out'>
+											{user.data().name}
+										</h2>
+									</Link>
 									<p className='text-sm text-gray-500 truncate dark:text-gray-400'>
 										{/* {user.data().email} */}
 										Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae,

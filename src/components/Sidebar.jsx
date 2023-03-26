@@ -1,5 +1,5 @@
 import { HomeIcon } from '@heroicons/react/solid';
-import { HashtagIcon, UsersIcon } from '@heroicons/react/outline';
+import { HashtagIcon, UserIcon, UsersIcon } from '@heroicons/react/outline';
 import SidebarMenuItem from './SidebarMenuItem';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { auth } from '../Firebase';
@@ -41,7 +41,7 @@ const Sidebar = () => {
 					/>
 				</div>
 				{/* Menu */}
-				<div className='mt-4 mb-2.5 xl:items-start'>
+				<div className='mt-4 mb-2.5 flex flex-col xl:items-start gap-y-4'>
 					<div className='block xl:hidden'>
 						<ThemeToggle />
 					</div>
@@ -52,33 +52,38 @@ const Sidebar = () => {
 						<SidebarMenuItem text={'Explore'} Icon={HashtagIcon} />
 					</NavLink>
 					<NavLink to={'/users'}>
-						<SidebarMenuItem text={'Messages'} Icon={UsersIcon} />
+						<SidebarMenuItem text={'Users'} Icon={UsersIcon} />
 					</NavLink>
-					{/* Add Post */}
+					<NavLink to={`/profile/${auth?.currentUser?.uid}`}>
+						<SidebarMenuItem text={'Profile'} Icon={UserIcon} />
+					</NavLink>
+				</div>
+				<div className='mt-5'>
+					{/* Tweet Icon */}
 					<div
 						onClick={() => setOpenModal((prevState) => !prevState)}
 						title='New Post'
 						className='flex xl:hidden items-center justify-center '>
-						<button className='inline-flex items-center justify-center w-10 h-10 font-medium bg-blue-600 rounded-full hover:bg-blue-700 group focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800'>
+						<button className='inline-flex items-center justify-center w-12 h-12 font-medium bg-blue-500 rounded-full hover:bg-blue-600 group focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800 active:scale-95'>
 							<svg
-								className='w-6 h-6 text-white'
+								className='w-7 h-7 text-white'
 								fill='currentColor'
 								viewBox='0 0 20 20'
 								xmlns='http://www.w3.org/2000/svg'>
 								<path
 									clipRule='evenodd'
 									fillRule='evenodd'
-									d='M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z'></path>
+									d='M23 3c-6.62-.1-10.38 2.421-13.05 6.03C7.29 12.61 6 17.331 6 22h2c0-1.007.07-2.012.19-3H12c4.1 0 7.48-3.082 7.94-7.054C22.79 10.147 23.17 6.359 23 3zm-7 8h-1.5v2H16c.63-.016 1.2-.08 1.72-.188C16.95 15.24 14.68 17 12 17H8.55c.57-2.512 1.57-4.851 3-6.78 2.16-2.912 5.29-4.911 9.45-5.187C20.95 8.079 19.9 11 16 11zM4 9V6H1V4h3V1h2v3h3v2H6v3H4z'></path>
 							</svg>
 						</button>
 					</div>
+					{/* Button */}
+					<button
+						onClick={() => setOpenModal((prevState) => !prevState)}
+						className='bg-blue-400 text-white rounded-full w-56 h-12 font-bold shadow-md hover:brightness-95 text-lg hidden xl:inline active:scale-95'>
+						Tweet
+					</button>
 				</div>
-				{/* Button */}
-				<button
-					onClick={() => setOpenModal((prevState) => !prevState)}
-					className='bg-blue-400 text-white rounded-full w-56 h-12 font-bold shadow-md hover:brightness-95 text-lg hidden xl:inline active:scale-95'>
-					Tweet
-				</button>
 				{/* Mini Profile */}
 				<div className='hoverEffect py-0 text-gray-700 dark:text-white flex items-center justify-center xl:justify-start gap-x-3 mt-auto cursor-default hover:scale-100 relative '>
 					<div className='group cursor-pointer py-3 duration-200 ease-in-out'>
