@@ -60,7 +60,7 @@ const Profile = () => {
 								/>
 							</div>
 							{/* <!-- Edit Button --> */}
-							{userData && (
+							{userData && id == auth.currentUser.uid && (
 								<div className='flex flex-col text-right'>
 									<button className='flex justify-center max-h-max whitespace-nowrap focus:outline-none focus:ring max-w-max border bg-transparent border-blue-500 text-blue-500 hover:border-blue-800 items-center hover:shadow-lg font-bold py-2 px-4 rounded-full mr-0 ml-auto'>
 										Edit Profile

@@ -19,7 +19,7 @@ import Post from './pages/Post';
 import PostModal from './components/PostModal';
 import { AnimatePresence } from 'framer-motion';
 import SignUp from './pages/SignUp';
-import Test from './pages/Test';
+import NotFound404 from './components/NotFound404';
 
 const LayOut = () => {
 	return (
@@ -61,12 +61,12 @@ let route = createHashRouter([
 				),
 			},
 			{
-				path: '/profile',
-				element: (
-					<ProtectedRoute>
-						<Profile />
-					</ProtectedRoute>
-				),
+				path: '/sign-up',
+				element: <SignUp />,
+			},
+			{
+				path: '/login',
+				element: <Login />,
 			},
 			{
 				path: '/profile/:id',
@@ -108,19 +108,11 @@ let route = createHashRouter([
 					</ProtectedRoute>
 				),
 			},
+			{
+				path: '*',
+				element: <NotFound404 />,
+			},
 		],
-	},
-	{
-		path: '/sign-up',
-		element: <SignUp />,
-	},
-	{
-		path: '/login',
-		element: <Login />,
-	},
-	{
-		path: '/test',
-		element: <Test />,
 	},
 ]);
 

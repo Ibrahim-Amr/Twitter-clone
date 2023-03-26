@@ -57,18 +57,9 @@ const SignUp = () => {
 		<>
 			<section className='min-h-screen flex flex-col justify-center items-center'>
 				<h1 className='text-3xl text-center font-bold text-black dark:text-white'>Sign Up</h1>
-				<div className='flex justify-center items-center flex-wrap px-6 py-12 max-w-6xl mx-auto'>
-					{/* IMG */}
-					<div className='md:w-[67%] lg:w-[50%] mb-12 md:mb-6 '>
-						<img
-							src='https://i.cbc.ca/1.6690705.1671451365!/fileImage/httpImage/1245718932.jpg'
-							alt='sign-up'
-							title='sign up'
-							className='w-full rounded-2xl'
-						/>
-					</div>
+				<div className='flex justify-center items-center flex-wrap px-6 py-12 w-full'>
 					{/* FORM */}
-					<div className='w-full md:w-[67%] lg:w-[40%] lg:ml20 lg:ml-20'>
+					<div className='w-full'>
 						<form onSubmit={handleSubmit}>
 							<input
 								className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded mb-6'
