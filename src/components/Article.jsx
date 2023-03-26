@@ -69,9 +69,11 @@ const Article = ({ post }) => {
 				<div className='flex flex-shrink-0 p-4 pb-0'>
 					<div className='flex-shrink-0 group block'>
 						<div className='flex items-center'>
-							<Link to={`/profile/${post.data().auther}`}>
+							<Link
+								to={`/profile/${post.data().auther}`}
+								className='border-2 border-gray-200 hover:border-gray-400 duration-150 ease-in-out rounded-full p-[1px]'>
 								<img
-									className='inline-block h-10 w-10 rounded-full'
+									className='inline-block h-11 w-11 rounded-full '
 									src={
 										post.data().autherImg == null
 											? 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png'
@@ -80,10 +82,10 @@ const Article = ({ post }) => {
 									alt='avatar'
 								/>
 							</Link>
-							<div className='ml-3'>
+							<div className='ml-1'>
 								<Link
 									to={`/profile/${post.data().auther}`}
-									className='text-base leading-6 font-semibold text-black dark:text-white hover:underline'>
+									className='text-base leading-6 font-semibold text-black dark:text-white hover:underline capitalize'>
 									{post.data().autherName}
 								</Link>
 								<span className='text-sm leading-5 font-medium text-gray-600 dark:text-gray-300/70 ml-1'>

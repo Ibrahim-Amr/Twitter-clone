@@ -1,4 +1,3 @@
-import { async } from '@firebase/util';
 import { CalendarIcon, TrashIcon } from '@heroicons/react/outline';
 import { LinkIcon } from '@heroicons/react/solid';
 import { collection, getDoc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
@@ -29,7 +28,7 @@ const Profile = () => {
 		return postUnsub;
 	}, [id]);
 
-	if (!id) {
+	if (userData?.length < 0) {
 		return <Spinner />;
 	}
 	return (
@@ -74,30 +73,33 @@ const Profile = () => {
 							<div className='space-y-1 justify-center w-full mt-3  border-b  border-gray-200 dark:border-gray-50/20 px-5'>
 								{/* <!-- User basic--> */}
 								<div>
-									<h2 className='text-xl leading-6 font-bold text-black dark:text-white'>
+									<h2 className='text-xl leading-6 font-bold text-black dark:text-white capitalize'>
 										{userData?.name}
 									</h2>
-									<p className='text-sm leading-5 font-medium text-gray-600'>
+									<p className='text-sm leading-5 font-medium text-gray-500'>
 										@{userData?.name?.replace(/\s/g, '')?.toLowerCase()}
 									</p>
 								</div>
 								{/* <!-- Description and others --> */}
 								<div className='mt-3 pb-3'>
-									<p className='text-black dark:text-white leading-tight mb-2'>
+									<p className='text-black dark:text-white leading-tight mb-3'>
 										Front-end Developer / ReactJS / Entrepreneur <br />
-										Visit my Portfolio to view <b>My projects.</b>
+										Visit my <b>Portfolio</b> to view My projects.
 									</p>
 									<div className='text-gray-600 flex'>
-										<span className='flex mr-2'>
-											<LinkIcon className='h-5 w-5 text-black dark:text-white' />
-											<Link
-												to={'www.google.com'}
-												target='_blank'
-												className='leading-5 ml-1 text-blue-400'>
-												www.google.com
-											</Link>
-										</span>
-										<span className='flex mr-2'>
+										{id == 'lgypM4w7D9VvTlQUrARSDc6BN703' && (
+											<span className='flex mr-2'>
+												<LinkIcon className='h-5 w-5 text-black dark:text-white' />
+												<Link
+													to={'https://ibrahim-amr.github.io/portfolio_v2/#/'}
+													target='_blank'
+													className='leading-5 ml-1 text-blue-400'>
+													Portfolio
+												</Link>
+											</span>
+										)}
+
+										<span className='flex mr-2' title='Date Joined'>
 											<CalendarIcon className='h-5 w-5 text-black dark:text-white' />
 											<span className='leading-5 ml-1 text-gray-600 dark:text-white'>
 												{userData?.creationTime ??

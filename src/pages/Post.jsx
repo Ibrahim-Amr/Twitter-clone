@@ -116,11 +116,11 @@ const Post = () => {
 						</span>
 					</div>
 					<div
-						className='flex justify-between items-start px-3 py-1 cursor-pointer border-b
+						className='flex justify-between items-start px-3 py-1 border-b
 				border-b-gray-200 dark:border-blue-50/20 relative'>
 						{/* user image */}
 						<div className='group relative'>
-							<Link to={`/`}>
+							<Link to={`/profile/${post?.auther}`}>
 								<img
 									src={
 										post?.autherImg == null
@@ -139,7 +139,7 @@ const Post = () => {
 							<div className='flex justify-between items-center '>
 								{/* post user info */}
 								<div className='flex justify-start items-center gap-x-1 whitespace-nowrap'>
-									<Link to={`/`}>
+									<Link to={`/profile/${post?.auther}`}>
 										<h4 className='font-bold text-[15px] sm:text-[16px] hover:underline capitalize text-black dark:text-white'>
 											{post?.autherName}
 										</h4>
