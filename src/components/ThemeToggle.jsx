@@ -23,6 +23,7 @@ const ThemeToggle = () => {
 					<input
 						type='checkbox'
 						className='hidden'
+						onChange={(e) => {}}
 						checked={theme === 'dark' ? true : false}
 					/>
 					{/* <!-- sun icon --> */}

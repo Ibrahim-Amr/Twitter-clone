@@ -37,7 +37,7 @@ const Profile = () => {
 
 	return (
 		<>
-			<section className=''>
+			<section className='min-h-screen mb-16'>
 				{/* <!-- User card --> */}
 				<div>
 					{/* Cover Image */}

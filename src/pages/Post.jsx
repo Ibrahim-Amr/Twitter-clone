@@ -103,7 +103,7 @@ const Post = () => {
 	if (!post) {
 		return (
 			<>
-				<div>
+				<div className='min-h-screen '>
 					<div className='flex items-center p-3 border-b border-gray-50/20 w-full sticky top-0 bg-white  dark:bg-black z-50 shadow mb-3'>
 						<span className='text-lg sm:text-xl font-bold cursor-pointer text-gray-600 dark:text-white'>
 							Post
@@ -125,7 +125,7 @@ const Post = () => {
 
 	return (
 		<>
-			<div className='mb-3'>
+			<div className='min-h-screen mb-16'>
 				<article className='w-full h-screenoverflow-hidden py3'>
 					<div className='flex items-center p-3 border-b border-gray-50/20 w-full sticky top-0 bg-white  dark:bg-black z-50 shadow mb-3'>
 						<span className='text-lg sm:text-xl font-bold cursor-pointer text-gray-600 dark:text-white'>

@@ -70,7 +70,7 @@ const CommentModal = () => {
 					contentLabel='Comments'
 					ariaHideApp={false}
 					onRequestClose={() => setOpenModal(false)}
-					className='max-w-xl w-[90%] absolute top-24 left-[50%] translate-x-[-50%] bg-white dark:bg-black border-2 border-gray-200 outline-none rounded-xl shadow-md text-black dark:text-white'>
+					className='w-full sm:max-w-xl sm:w-[90%] absolute  sm:top-24 sm:left-[50%] sm:translate-x-[-50%] bg-white dark:bg-black border-2 border-gray-200 outline-none rounded-xl shadow-md text-black dark:text-white'>
 					<div className='p-1 '>
 						{/* Close Icon */}
 						<div className='border-b border-gray-200 py-2 px-1.5'>
