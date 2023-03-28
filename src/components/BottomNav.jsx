@@ -1,7 +1,8 @@
 import { LogoutIcon, NewspaperIcon, UsersIcon } from '@heroicons/react/outline';
+import { UserIcon } from '@heroicons/react/solid';
 import { onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { postModalState } from '../../atom/modalAtom';
 import { auth } from '../Firebase';
@@ -10,7 +11,9 @@ const BottomNav = () => {
 	const [user, setUser] = useState(null);
 	const [openModal, setOpenModal] = useRecoilState(postModalState);
 	let navigate = useNavigate();
+	let location = useLocation();
 
+	console.log(location);
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
@@ -28,8 +31,8 @@ const BottomNav = () => {
 	return (
 		<>
 			{user && (
-				<div className='fixed bottom-0 z-50 w-full h-16 -translate-x-1/2 bg-white border-t border-gray-200 left-1/2 dark:bg-black dark:border-gray-600 sm:hidden'>
-					<div className='grid h-full max-w-lg grid-cols-5 mx-auto'>
+				<div className='fixed bottom-0 left-0 z-50 w-full h-16 max-h-16  bg-white border-t border-gray-200  dark:bg-black dark:border-gray-600 sm:hidden'>
+					<div className='grid h-full max-w-lg grid-cols-6 mx-auto'>
 						{/* Home */}
 						<Link
 							to={'/'}
@@ -72,12 +75,19 @@ const BottomNav = () => {
 								</svg>
 							</button>
 						</div>
-						{/* Settings */}
+						{/* News */}
 						<Link
 							to={'/explore'}
 							title='Explore'
 							className='inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group'>
 							<NewspaperIcon className='w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' />
+						</Link>
+						{/* Profile */}
+						<Link
+							to={`/profile/${auth?.currentUser?.uid}`}
+							title='profile'
+							className='inline-flex flex-col items-center justify-center px-5 hover:bg-gray-50 dark:hover:bg-gray-800 group'>
+							<UserIcon className='w-6 h-6 mb-1 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500' />
 						</Link>
 						{/* Profile */}
 						<div

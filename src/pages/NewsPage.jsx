@@ -24,7 +24,7 @@ const NewsPage = () => {
 	}, []);
 
 	return (
-		<div className='overflow-hidden pb-3'>
+		<div className='overflow-hidden mb-16 sm:pb-3 min-h-screen'>
 			<div className='sticky top-0 z-50 flex justify-between items-center bg-white dark:bg-black border-b border-gray-200 dark:border-gray-50/20  px-3 py-3 text-black dark:text-white'>
 				<h2 className='text-lg sm:text-xl font-bold cursor-pointer '>Explore</h2>
 				<div className='hoverEffect flex justify-center items-center p-0 w-9 h-9'>

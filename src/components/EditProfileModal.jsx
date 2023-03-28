@@ -98,7 +98,7 @@ const EditProfileModal = () => {
 							</div>
 							<button
 								onClick={updata}
-								className='rounded-full bg-white hover:bg-gray-100 text-black py-1 px-5 font-semibold active:scale-95'>
+								className='rounded-full bg-blue-400 hover:bg-blue-500 text-white dark:bg-white dark:hover:bg-gray-100 dark:text-black py-1 px-5 font-semibold active:scale-95'>
 								Save
 							</button>
 						</div>
@@ -156,6 +156,7 @@ const EditProfileModal = () => {
 									id='name'
 									value={userData.name}
 									onChange={onChange}
+									maxLength={50}
 									className='block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
 									placeholder='Name'
 								/>
@@ -173,6 +174,7 @@ const EditProfileModal = () => {
 									value={userData?.bio}
 									onChange={onChange}
 									rows={4}
+									maxLength={200}
 									className='block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer resize-none'
 									placeholder='Bio'
 								/>

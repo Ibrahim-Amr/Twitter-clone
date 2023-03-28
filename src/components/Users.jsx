@@ -26,7 +26,7 @@ const Users = () => {
 
 	return (
 		<>
-			<div className='text-gray-700 dark:text-white py-3'>
+			<div className='text-gray-700 dark:text-white py-3 min-h-screen'>
 				<div className='sticky top-0 z-50 flex justify-between items-center bg-white dark:bg-black border-b border-gray-200 dark:border-gray-50/20 pb-3'>
 					<h2 className='text-lg sm:text-xl font-bold cursor-pointer ml-3'>Users</h2>
 					<div className='hoverEffect flex justify-center items-center p-0 w-9 h-9 mr-3'>

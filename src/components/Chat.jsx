@@ -47,13 +47,14 @@ const Chat = () => {
 
 	return (
 		<>
-			<div className='w-full h-[calc(100vh-64px)] sm:h-screen overflow-hidden'>
-				<div className='flex items-center p-3 border-b border-gray-50/20 w-full sticky top-0 bg-white  dark:bg-black z-50 shadow'>
-					<span className='text-lg sm:text-xl font-bold cursor-pointer text-gray-600 dark:text-white'>
+			<div className='w-full h-[calc(100vh-150px)] sm:h-screen overflow-y-hidden'>
+				<div className='sticky top-0 z-10 flex justify-between items-center bg-white dark:bg-black border-b border-gray-200 dark:border-gray-50/20  px-3 py-3'>
+					<h2 className='text-lg sm:text-xl font-bold cursor-pointer text-black dark:text-white'>
 						Chat
-					</span>
+					</h2>
+					<div className='hoverEffect flex justify-center items-center p-0 w-9 h-9'></div>
 				</div>
-				<div className='w-full  overflow-y-auto h-[calc(100vh-120px)] pb-16 sm:p-6'>
+				<div className='w-full h-[80%] sm:h-full  overflow-y-auto  px-4'>
 					<AnimatePresence>
 						{messages &&
 							messages.map((message, index) => (

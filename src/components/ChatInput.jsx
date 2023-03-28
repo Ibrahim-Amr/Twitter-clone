@@ -47,7 +47,7 @@ const ChatInput = ({ scroll }) => {
 	return (
 		<>
 			<form
-				className='w-full sticky bottom-0 flex gap-x-2 bg-white dark:bg-black h-fit'
+				className='w-full sticky bottom-0 flex gap-x-2 bg-white dark:bg-black  h-16 max-h-16'
 				onSubmit={addPost}>
 				<div className='flex items-center justify-between w-full p-3 border-t border-gray-300  bg'>
 					<input
