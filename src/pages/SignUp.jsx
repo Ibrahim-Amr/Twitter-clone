@@ -43,11 +43,13 @@ const SignUp = () => {
 			formDataCopy.id = user.uid;
 			formDataCopy.creationTime = user.metadata.creationTime;
 			formDataCopy.avatar = 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png';
+			formDataCopy.cover = '';
+			formData.bio = 'New Email';
 			await setDoc(doc(db, 'users', user.uid), formDataCopy);
 			navigate('/');
 			toast.success(`Welcome ${user.displayName}`);
 		} catch (err) {
-			console.log(err.message);
+			// console.log(err.message);
 			toast.error('Please enter a valid email and password');
 			// toast.error(err.message);
 		}

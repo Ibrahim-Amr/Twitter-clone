@@ -27,7 +27,7 @@ const Sidebar = () => {
 				setUserInfo(user);
 			}
 		});
-	}, [auth]);
+	}, [auth?.currentUser]);
 
 	return (
 		<>
@@ -89,10 +89,10 @@ const Sidebar = () => {
 				)}
 				{/* Mini Profile */}
 				{userInfo && (
-					<div className='hoverEffect py-0 text-gray-700 dark:text-white flex items-center justify-center xl:justify-start gap-x-3 mt-auto cursor-default hover:scale-100 relative '>
+					<div className='hoverEffect py-0 text-gray-700 dark:text-white flex items-center justify-center xl:justify-start gap-x-3 mt-auto cursor-default  relative '>
 						<div className='group cursor-pointer py-3 duration-200 ease-in-out'>
 							<img
-								className='w-10 h-w-10 rounded-full '
+								className='w-8 h-8 rounded-full object-cover bg-white'
 								src={
 									userInfo.photoURL == null
 										? 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png'

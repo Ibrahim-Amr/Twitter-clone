@@ -19,15 +19,17 @@ const OAuth = () => {
 				await setDoc(docRef, {
 					id: user.uid,
 					name: user.displayName,
-					email: user.email,
+					bio: 'new Email',
 					avatar: user.photoURL,
+					cover: 'https://scontent.fcai20-6.fna.fbcdn.net/v/t1.18169-9/13417541_1212919185440026_4001463876724524663_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=e3f864&_nc_ohc=gbrr7qAqpLkAX_Gkja1&_nc_ht=scontent.fcai20-6.fna&oh=00_AfCIcjXRI5Koy2m-S4eZDV5CxNmCsa08QKQhpvL02Cla2w&oe=6447B6B8',
 					creationTime: user.metadata.creationTime,
 				});
 			}
 			navigate('/');
 			toast.success(`Welcome ${user.displayName}`);
 		} catch (err) {
-			console.log(err);
+			// console.log(err);
+			toast.success(`Could not connect to server. Please try again later.`);
 		}
 	};
 	return (

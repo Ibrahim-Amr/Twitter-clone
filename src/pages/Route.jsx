@@ -5,7 +5,7 @@ import Chat from '../components/Chat';
 import CommentModal from '../components/CommentModal';
 import NotFound404 from '../components/NotFound404';
 import PostModal from '../components/PostModal';
-import Profile from '../components/Profile';
+import Profile from '../pages/Profile';
 import ProtectedRoute from '../components/ProtectedRoute';
 import Sidebar from '../components/Sidebar';
 import Users from '../components/Users';
@@ -15,6 +15,7 @@ import Login from './Login';
 import NewsPage from './NewsPage';
 import Post from './Post';
 import SignUp from './SignUp';
+import EditProfileModal from '../components/EditProfileModal';
 
 const LayOut = () => {
 	return (
@@ -36,6 +37,8 @@ const LayOut = () => {
 				<CommentModal />
 				{/* Post Modal */}
 				<PostModal />
+				{/* Post Modal */}
+				<EditProfileModal />
 				<ScrollRestoration />
 			</main>
 		</>

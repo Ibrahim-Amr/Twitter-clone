@@ -1,16 +1,19 @@
-import { CalendarIcon, TrashIcon } from '@heroicons/react/outline';
+import { CalendarIcon } from '@heroicons/react/outline';
 import { LinkIcon } from '@heroicons/react/solid';
-import { collection, getDoc, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { auth, db } from '../Firebase';
-import Article from './Article';
-import Spinner from './Spinner';
+import Article from '../components/Article';
+import Spinner from '../components/Spinner';
+import { useRecoilState } from 'recoil';
+import { editProfileState } from '../../atom/modalAtom';
 
 const Profile = () => {
 	const [posts, setPosts] = useState([]);
 	const [userData, setUserData] = useState([]);
 	let { id } = useParams();
+	const [openModal, setOpenModal] = useRecoilState(editProfileState);
 
 	// Getting user data
 	useEffect(() => {
@@ -31,6 +34,7 @@ const Profile = () => {
 	if (userData?.length < 0) {
 		return <Spinner />;
 	}
+
 	return (
 		<>
 			<section className=''>
@@ -61,7 +65,9 @@ const Profile = () => {
 							{/* <!-- Edit Button --> */}
 							{userData && id == auth.currentUser.uid && (
 								<div className='flex flex-col text-right'>
-									<button className='flex justify-center max-h-max whitespace-nowrap focus:outline-none focus:ring max-w-max border bg-transparent border-blue-500 text-blue-500 hover:border-blue-800 items-center hover:shadow-lg font-bold py-2 px-4 rounded-full mr-0 ml-auto'>
+									<button
+										onClick={() => setOpenModal((prevState) => !prevState)}
+										className='flex justify-center max-h-max whitespace-nowrap focus:outline-none focus:ring max-w-max border bg-transparent border-blue-500 text-blue-500 hover:border-blue-800 items-center hover:shadow-lg font-bold py-2 px-4 rounded-full mr-0 ml-auto active:scale-95 duration-150 ease-in-out'>
 										Edit Profile
 									</button>
 								</div>
@@ -82,9 +88,8 @@ const Profile = () => {
 								</div>
 								{/* <!-- Description and others --> */}
 								<div className='mt-3 pb-3'>
-									<p className='text-black dark:text-white leading-tight mb-3'>
-										Front-end Developer / ReactJS / Entrepreneur <br />
-										Visit my <b>Portfolio</b> to view My projects.
+									<p className='text-black dark:text-white leading-tight mb-3 w-2/3'>
+										{userData?.bio}
 									</p>
 									<div className='text-gray-600 flex'>
 										{id == 'lgypM4w7D9VvTlQUrARSDc6BN703' && (
@@ -119,7 +124,7 @@ const Profile = () => {
 				)}
 				{/* Posts */}
 				{posts.map((post) => (
-					<Article post={post} />
+					<Article key={post.id} post={post} />
 				))}
 				{/* <article className='border-b border-gray-200 dark:border-gray-50/20'>
 					<div className='flex flex-shrink-0 p-4 pb-0'>
