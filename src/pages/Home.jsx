@@ -11,7 +11,9 @@ const Home = () => {
 
 	useEffect(() => {
 		const q = query(collection(db, 'posts'), orderBy('timestamp', 'desc'));
-		const unsubscribe = onSnapshot(q, (snapshot) => setPosts(snapshot.docs));
+		const unsubscribe = onSnapshot(q, (snapshot) => {
+			setPosts(snapshot.docs);
+		});
 
 		return unsubscribe;
 	}, []);

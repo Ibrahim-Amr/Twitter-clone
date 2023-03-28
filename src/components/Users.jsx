@@ -39,7 +39,7 @@ const Users = () => {
 							<div className='flex items-center space-x-3'>
 								<Link to={`/profile/${user?.data()?.id}`} className='flex-shrink-0'>
 									<img
-										className='w-8 h-8 rounded-full bg-gray-600 dark:bg-gray-200 overflow-hidden'
+										className='w-8 h-8 rounded-full bg-gray-600 dark:bg-gray-200 overflow-hidden object-cover'
 										src={
 											user.data().avatar == null
 												? 'https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg'

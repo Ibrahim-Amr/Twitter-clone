@@ -1,19 +1,21 @@
 import { EmojiHappyIcon, PhotographIcon, XIcon } from '@heroicons/react/outline';
 import { onAuthStateChanged } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { auth, db, storage } from '../Firebase';
 import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { useRecoilState } from 'recoil';
 import { postModalState } from '../../atom/modalAtom';
+import { UserDataContext } from '../context/UserDataContext';
 
 const Input = () => {
-	const [userInfo, setUserInfo] = useState({});
+	// const [userInfo, setUserInfo] = useState({});
 	const [post, setPost] = useState('');
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [openModal, setOpenModal] = useRecoilState(postModalState);
+	let { generateUniqueId } = useContext(UserDataContext);
 
 	// convert image to data string
 	function addImageToPost(e) {
@@ -27,14 +29,6 @@ const Input = () => {
 		};
 	}
 
-	//Random Id for the post
-	function generateUniqueId() {
-		const timestamp = new Date().getTime();
-		const random = Math.floor(Math.random() * 1000000);
-		const uniqueId = `${timestamp}-${random}`;
-		return uniqueId;
-	}
-
 	//  add post to firestore
 	async function addPost() {
 		try {
@@ -42,9 +36,7 @@ const Input = () => {
 			// Adding post to firestore
 			const docRef = await addDoc(collection(db, 'posts'), {
 				id: generateUniqueId(),
-				auther: userInfo.uid,
-				autherName: userInfo.displayName,
-				autherImg: userInfo.photoURL,
+				auther: auth?.currentUser?.uid,
 				text: post,
 				Likes: [],
 				comments: [],
@@ -71,28 +63,17 @@ const Input = () => {
 		}
 	}
 
-	// Checking the user status
-	useEffect(() => {
-		onAuthStateChanged(auth, (user) => {
-			if (user) {
-				setUserInfo(user);
-			} else {
-				setUserInfo('');
-			}
-		});
-	}, [auth]);
-
 	return (
 		<>
 			<div className='flex border-b border-gray-200 dark:border-gray-50/20 p-3 gap-x-3'>
 				<img
 					src={
-						userInfo.photoURL == null
+						auth?.currentUser?.photoURL == null
 							? 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png'
-							: userInfo.photoURL
+							: auth?.currentUser?.photoURL
 					}
 					alt='user'
-					className='h-11 w-11 rounded-full cursor-pointer brightness-95'
+					className='h-10 w-10 rounded-full cursor-pointer brightness-95 object-cover'
 				/>
 				<div className='w-full divide-y divide-gray-200 dark:divide-gray-50/20'>
 					<div className=''>

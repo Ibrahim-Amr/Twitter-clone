@@ -1,20 +1,36 @@
 import { useRecoilState } from 'recoil';
 import { modalState, postIdState } from '../../atom/modalAtom';
 import Modal from 'react-modal';
-import { EmojiHappyIcon, PhotographIcon, XIcon } from '@heroicons/react/outline';
-import { useEffect, useState } from 'react';
+import { XIcon } from '@heroicons/react/outline';
+import { useContext, useEffect, useState } from 'react';
 import { auth, db } from '../Firebase';
-import { arrayUnion, doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import {
+	arrayUnion,
+	collection,
+	doc,
+	onSnapshot,
+	query,
+	updateDoc,
+	where,
+} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { UserDataContext } from '../context/UserDataContext';
 
 const CommentModal = () => {
 	const [openModal, setOpenModal] = useRecoilState(modalState);
 	const [postId] = useRecoilState(postIdState);
 	const [post, setPost] = useState({});
 	const [input, setInput] = useState('');
+	let { userData, setUserId, generateUniqueId } = useContext(UserDataContext);
 	let navigate = useNavigate();
 
+	//Get Post Auther Info
+	useEffect(() => {
+		setUserId(post?.auther);
+	}, [post]);
+
+	// Get Post Data
 	useEffect(() => {
 		const docRef = doc(db, 'posts', postId);
 		const unsubscribe = onSnapshot(docRef, (snapshot) => {
@@ -23,13 +39,7 @@ const CommentModal = () => {
 		return unsubscribe;
 	}, [postId, db]);
 
-	function generateUniqueId() {
-		const timestamp = new Date().getTime();
-		const random = Math.floor(Math.random() * 1000000);
-		const uniqueId = `${timestamp}-${random}`;
-		return uniqueId;
-	}
-
+	// post Comment
 	async function sendComment() {
 		try {
 			const ref = doc(db, 'posts', postId);
@@ -76,19 +86,19 @@ const CommentModal = () => {
 								{/* Header */}
 								<img
 									src={
-										post?.autherImg == null
+										userData?.avatar == null
 											? 'https://about.twitter.com/content/dam/about-twitter/en/brand-toolkit/brand-download-img-1.jpg.twimg.1920.jpg'
-											: post?.autherImg
+											: userData?.avatar
 									}
 									alt='userimg'
 									width={50}
-									className='h-11 w-11 rounded-full mr-4'
+									className='h-11 w-11 rounded-full mr-4 object-cover'
 								/>
 								<h4 className='font-bold text-[15px] sm:text-[16px] hover:underline capitalize mr-1'>
-									{post?.autherName}
+									{userData?.name}
 								</h4>
 								<span className='text-sm sm:text-[15px] text-gray-700 dark:text-gray-300 mr-1'>
-									@{post?.autherName.replace(/\s/g, '').toLowerCase()}
+									@{userData?.name?.replace(/\s/g, '')?.toLowerCase()}
 								</span>
 								{' · '}
 								<span className='text-sm sm:text-[15px] hover:underline text-gray-700 dark:text-gray-300 ml-1'>

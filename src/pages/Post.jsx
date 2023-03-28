@@ -7,15 +7,26 @@ import {
 	TrashIcon,
 } from '@heroicons/react/outline';
 import { HeartIcon as HeartSolid } from '@heroicons/react/solid';
-import { arrayRemove, arrayUnion, deleteDoc, doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import {
+	arrayRemove,
+	arrayUnion,
+	collection,
+	deleteDoc,
+	doc,
+	onSnapshot,
+	query,
+	updateDoc,
+	where,
+} from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
 import { AnimatePresence } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { modalState, postIdState } from '../../atom/modalAtom';
 import PostComment from '../components/PostComment';
 import Spinner from '../components/Spinner';
+import { UserDataContext } from '../context/UserDataContext';
 import { auth, db, storage } from '../Firebase';
 
 const Post = () => {
@@ -26,7 +37,12 @@ const Post = () => {
 	const [postId, setPostId] = useRecoilState(postIdState);
 	const [post, setPost] = useState({});
 	let { id } = useParams();
-	let navigate = useNavigate();
+	let { userData, setUserId } = useContext(UserDataContext);
+
+	//Get Post Auther Info
+	useEffect(() => {
+		setUserId(post?.auther);
+	}, [post]);
 
 	// Get post from firebase
 	useEffect(() => {
@@ -59,7 +75,7 @@ const Post = () => {
 			if (post?.image) {
 				await deleteObject(ref(storage, `posts/${firebaseID}`));
 			}
-			// navigate('/');
+			navigate('/');
 		}
 	}
 
@@ -106,6 +122,7 @@ const Post = () => {
 			</>
 		);
 	}
+
 	return (
 		<>
 			<div className='mb-3'>
@@ -123,13 +140,13 @@ const Post = () => {
 							<Link to={`/profile/${post?.auther}`}>
 								<img
 									src={
-										post?.autherImg == null
+										userData?.avatar == null
 											? 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png'
-											: post?.autherImg
+											: userData?.avatar
 									}
 									alt='user'
 									width={50}
-									className='h-11 w-11 rounded-full mr-4 mt-3'
+									className='h-11 w-11 rounded-full mr-4 mt-3 object-cover'
 								/>
 							</Link>
 						</div>
@@ -141,12 +158,12 @@ const Post = () => {
 								<div className='flex justify-start items-center gap-x-1 whitespace-nowrap'>
 									<Link to={`/profile/${post?.auther}`}>
 										<h4 className='font-bold text-[15px] sm:text-[16px] hover:underline capitalize text-black dark:text-white'>
-											{post?.autherName}
+											{userData?.name}
 										</h4>
 									</Link>
 									<span className='text-sm sm:text-[15px] text-gray-700 dark:text-gray-300  '>
-										{/* @{post?.autherName.replace(/\s/g, '').toLowerCase()} */}@
-										{post?.autherName}
+										{/* @{userData?.name.replace(/\s/g, '').toLowerCase()} */}@
+										{userData?.name}
 									</span>
 									{' · '}
 									<span className='text-sm sm:text-[15px] hover:underline text-gray-700 dark:text-gray-300'>

@@ -1,19 +1,42 @@
 import { ChartBarIcon, HeartIcon, TrashIcon } from '@heroicons/react/outline';
 import { HeartIcon as HeartSolid } from '@heroicons/react/solid';
-import { arrayRemove, arrayUnion, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { deleteObject, ref } from 'firebase/storage';
-import { useEffect, useState } from 'react';
+import {
+	arrayRemove,
+	arrayUnion,
+	collection,
+	doc,
+	onSnapshot,
+	query,
+	updateDoc,
+	where,
+} from 'firebase/firestore';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth, db, storage } from '../Firebase';
+import { auth, db } from '../Firebase';
 import { motion } from 'framer-motion';
 import { useRecoilState } from 'recoil';
 import { modalState, postIdState } from '../../atom/modalAtom';
+import { UserDataContext } from '../context/UserDataContext';
 
 const Article = ({ post }) => {
 	const [hasLiked, setHasLiked] = useState(false);
+	const [userData, setUserData] = useState({});
+	// Recoil
 	const [openModal, setOpenModal] = useRecoilState(modalState);
 	const [postId, setPostId] = useRecoilState(postIdState);
+	// Context
+	let { deletePost } = useContext(UserDataContext);
 	let navigate = useNavigate();
+
+	//Get Post Auther Info
+	useEffect(() => {
+		if (post?.data()?.auther) {
+			let userRef = collection(db, 'users');
+			const q = query(userRef, where('id', '==', post?.data()?.auther));
+			const userUnsub = onSnapshot(q, (snapshot) => setUserData(snapshot?.docs[0]?.data()));
+			return userUnsub;
+		}
+	}, [post]);
 
 	// See if the logged user Liked the post
 	useEffect(() => {
@@ -24,17 +47,6 @@ const Article = ({ post }) => {
 			setHasLiked(false);
 		}
 	}, [post]);
-
-	// Delete post Function
-	async function deletePost() {
-		if (window.confirm('Are you sure you want to delete this post?')) {
-			let docRef = doc(db, 'posts', post.id);
-			await deleteDoc(docRef);
-			if (post.data().image) {
-				await deleteObject(ref(storage, `posts/${post.id}`));
-			}
-		}
-	}
 
 	// Toggle like post function
 	async function likePost() {
@@ -73,11 +85,11 @@ const Article = ({ post }) => {
 								to={`/profile/${post.data().auther}`}
 								className='border-2 border-gray-200 hover:border-gray-400 duration-150 ease-in-out rounded-full p-[1px]'>
 								<img
-									className='inline-block h-11 w-11 rounded-full '
+									className='inline-block h-11 w-11 rounded-full object-cover'
 									src={
-										post.data().autherImg == null
+										userData?.avatar == null
 											? 'https://upload.wikimedia.org/wikipedia/commons/2/2f/No-photo-m.png'
-											: post.data().autherImg
+											: userData?.avatar
 									}
 									alt='avatar'
 								/>
@@ -86,10 +98,10 @@ const Article = ({ post }) => {
 								<Link
 									to={`/profile/${post.data().auther}`}
 									className='text-base leading-6 font-semibold text-black dark:text-white hover:underline capitalize'>
-									{post.data().autherName}
+									{userData?.name}
 								</Link>
 								<span className='text-sm leading-5 font-medium text-gray-600 dark:text-gray-300/70 ml-1'>
-									@{post.data().autherName.replace(/\s/g, '').toLowerCase()} . 16 April
+									@{userData?.name?.replace(/\s/g, '')?.toLowerCase()} . 16 April
 								</span>
 							</div>
 						</div>
@@ -168,7 +180,7 @@ const Article = ({ post }) => {
 						<ChartBarIcon className='h-9 w-9 hoverEffect p-2 hover:text-blue-500 hover:bg-sky-100' />
 						{post?.data()?.auther === auth?.currentUser?.uid && (
 							<TrashIcon
-								onClick={deletePost}
+								onClick={() => deletePost(post)}
 								className='h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100'
 							/>
 						)}
