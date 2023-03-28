@@ -58,7 +58,7 @@ const EditProfileModal = () => {
 		});
 		// Update Avatar
 		if (avatarLink) {
-			const imageRef = ref(storage, `posts/${docId}`);
+			const imageRef = ref(storage, `profile/${'avatar' + docId}`);
 			await uploadString(imageRef, avatarLink, 'data_url').then(async () => {
 				const downloadURL = await getDownloadURL(imageRef);
 				await updateDoc(doc(db, 'users', docId), {
