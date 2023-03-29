@@ -54,7 +54,7 @@ const Chat = () => {
 					</h2>
 					<div className='hoverEffect flex justify-center items-center p-0 w-9 h-9'></div>
 				</div>
-				<div className='w-full h-[80%] sm:h-full  overflow-y-auto  px-4'>
+				<div className='w-full h-[80%] sm:h-full  overflow-y-auto px-4 pt-0 sm:pt-36'>
 					<AnimatePresence>
 						{messages &&
 							messages.map((message, index) => (
