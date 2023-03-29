@@ -1,6 +1,5 @@
 import { EmojiHappyIcon, PhotographIcon, XIcon } from '@heroicons/react/outline';
-import { onAuthStateChanged } from 'firebase/auth';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { auth, db, storage } from '../Firebase';
 import { addDoc, collection, doc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { toast } from 'react-toastify';
@@ -10,7 +9,6 @@ import { postModalState } from '../../atom/modalAtom';
 import { UserDataContext } from '../context/UserDataContext';
 
 const Input = () => {
-	// const [userInfo, setUserInfo] = useState({});
 	const [post, setPost] = useState('');
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [loading, setLoading] = useState(false);

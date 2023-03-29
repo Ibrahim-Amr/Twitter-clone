@@ -22,11 +22,11 @@ const Home = () => {
 		<div className='text-black dark:text-white mb-16 sm:pb-3 min-h-screen'>
 			{/* Header Component */}
 			<HomeHeader />
-			{/* Input Component */}
+			{/* Add Post Input Component */}
 			<Input />
 			{/* Article Component */}
 			<AnimatePresence>
-				{posts.map((post, id) => (
+				{posts.map((post) => (
 					<Article post={post} key={post.id} />
 				))}
 			</AnimatePresence>
